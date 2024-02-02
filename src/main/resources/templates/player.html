@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div class="main-w3layouts wrapper">
+    <h1>新增遊戲成員頁面</h1>
+    <div class="main-agileinfo">
+        <div class="agileits-top">
+            <form method="post" th:object="${playermodel}" action="/complete">
+                <input class="text" type="text" th:field="*{playerName}" name="playerName" placeholder="遊玩暱稱" required="">
+                <input class="text" type="number" th:field="*{chips}" name="chips" placeholder="身上籌碼" required="">
+
+
+
+
+
+                    <div class="clear"> </div>
+                <input type="submit" value="新增">
+            </form>
+
+        </div>
+    </div>
+</body>
+</html>
