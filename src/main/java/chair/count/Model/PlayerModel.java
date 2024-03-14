@@ -10,10 +10,8 @@ import lombok.Setter;
 @Getter
 @Setter
 
-public class playerModel {
+public class PlayerModel {
     private String playerName;
     private int chips;
-
-
 
 }
