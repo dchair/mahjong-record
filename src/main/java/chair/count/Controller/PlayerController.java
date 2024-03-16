@@ -20,6 +20,7 @@ public class PlayerController {
     @PostMapping("/addplayer")
     public String completeinfo(@ModelAttribute("playerModel") PlayerModel playerModel, Model model){
         String msq =null;
+
         return "index";
 
     }

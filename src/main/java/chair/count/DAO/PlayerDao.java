@@ -6,7 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class playerDao {
+public class PlayerDao {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
@@ -16,7 +16,14 @@ public class playerDao {
         return jdbcTemplate.update(sq1,player.getPlayerName(),player.getChips());
     }
         //
+
+    public long isPlayerExists(String playerName){
+        String sql="SELECT COUNT (*) FROM PLAYERDATE WHERE PlayerName=?";
+        return jdbcTemplate.queryForObject(sql,Long.class,playerName);
+        }
     }
+
+
 
 
 
