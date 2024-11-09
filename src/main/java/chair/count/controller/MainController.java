@@ -1,6 +1,5 @@
-package chair.count.Controller;
+package chair.count.controller;
 
-import chair.count.Model.PlayerModel;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
