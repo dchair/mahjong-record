@@ -2,7 +2,7 @@
 <html lang="en"xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>add_player</title>
 </head>
 <body>
 
@@ -11,13 +11,9 @@
     <div class="main-agileinfo">
         <div class="agileits-top">
 
-            <form id="addplayer"  method="post" th:action="@{/addplayer}" th:object="${addplayermodel}">
-                <input class="text" type="text" th:field="*{playerName}" name="playerName" placeholder="遊玩暱稱" required="">
-                <input class="text" type="number" th:field="*{chips}" name="chips" placeholder="身上籌碼" required="">
-
-
-
-
+            <form id="addplayer"  method="post" th:action="@{/addplayer}" th:object="${playerRequest}">
+                <input  type="text" th:field="*{playerName}"  placeholder="遊玩暱稱" required="">
+                <input  type="number" th:field="*{chips}"  placeholder="身上籌碼" required="">
 
                     <div class="clear"> </div>
                 <input type="submit" value="新增">

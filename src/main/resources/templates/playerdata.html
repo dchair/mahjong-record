@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>玩家資料</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+
+<h1>玩家列表</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>玩家ID</th>
+        <th>玩家名稱</th>
+        <th>籌碼</th>
+        <th>註冊日期</th>
+        <th>最後更新日期</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- 使用 Thymeleaf 循环展示所有玩家 -->
+    <tr th:each="player : ${players}">
+        <td th:text="${player.playerId}"></td>
+        <td th:text="${player.playerName}"></td>
+        <td th:text="${player.chips}"></td>
+        <td th:text="${#dates.format(player.createdDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+        <td th:text="${#dates.format(player.lastModified, 'yyyy-MM-dd HH:mm:ss')}"></td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
