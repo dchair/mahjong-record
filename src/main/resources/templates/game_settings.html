@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Settings Request</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        input[type="number"] {
+            padding: 8px;
+            font-size: 16px;
+            margin-top: 5px;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Game Settings Request</h1>
+
+<form action="/game-settings-request" method="post" th:object="${gameSettingsRequest}">
+
+    <!-- Base Fan Price -->
+    <label for="baseFanPrice">Base Fan Price</label>
+    <input type="number" id="baseFanPrice" th:field="*{baseFanPrice}" required>
+
+    <!-- Per Fan Price -->
+    <label for="perFanPrice">Per Fan Price</label>
+    <input type="number" id="perFanPrice" th:field="*{perFanPrice}" required>
+
+    <!-- Calculate Fan -->
+    <label for="calculateFan">Calculate Fan</label>
+    <input type="number" id="calculateFan" th:field="*{calculateFan}" required>
+
+    <!-- Submit Button -->
+    <button type="submit">Save Settings</button>
+</form>
+
+</body>
+</html>

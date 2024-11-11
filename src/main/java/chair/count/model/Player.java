@@ -7,7 +7,7 @@ public class Player {
     private String playerName;
     private Integer chips;
     private Date createdDate;
-    private Date lastModified;
+    private Date lastModifiedDate;
 
     public Integer getPlayerId() {
         return playerId;
@@ -41,11 +41,11 @@ public class Player {
         this.createdDate = createdDate;
     }
 
-    public Date getLastModified() {
-        return lastModified;
+    public Date getLastModifiedDate() {
+        return lastModifiedDate;
     }
 
-    public void setLastModified(Date lastModified) {
-        this.lastModified = lastModified;
+    public void setLastModifiedDate(Date lastModified) {
+        this.lastModifiedDate = lastModified;
     }
 }

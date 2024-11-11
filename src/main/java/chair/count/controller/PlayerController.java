@@ -19,22 +19,22 @@ public class PlayerController {
     @Autowired
     private PlayerService playerService;
 
-    @GetMapping("/addplayer")
-    public String playerinfo(Model model){
+    @GetMapping("/add_player")
+    public String add_player(Model model){
         //這裡開一個名字為 playerRequest  的模型(PlayerModel)
         PlayerRequest playerRequest =new PlayerRequest();
         model.addAttribute("playerRequest",playerRequest);
         return "add_player";
     }
-    @GetMapping("playerdata")
+    @GetMapping("player_data")
     public String getPlayers(Model model){
         List<Player> players = playerService.getPlayers();  // 获取所有玩家
         model.addAttribute("players", players);  // 将玩家数据传递给视图
-        return "playerdata";
+        return "player_data";
     }
 
-    @PostMapping("/addplayer")
-    public String addplayer(@ModelAttribute("playerRequest") PlayerRequest playerRequest){
+    @PostMapping("/add_player")
+    public String add_player(@ModelAttribute("playerRequest") PlayerRequest playerRequest){
 
 
         int playerId = playerService.addPlayer(playerRequest);

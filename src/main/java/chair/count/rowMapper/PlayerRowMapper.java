@@ -16,7 +16,7 @@ public class PlayerRowMapper implements RowMapper<Player> {
         player.setPlayerName(resultSet.getString("player_name"));
         player.setChips(resultSet.getInt("chips"));
         player.setCreatedDate(resultSet.getTimestamp("created_date"));
-        player.setLastModified(resultSet.getTimestamp("last_modified_date"));
+        player.setLastModifiedDate(resultSet.getTimestamp("last_modified_date"));
 
         return player;
 

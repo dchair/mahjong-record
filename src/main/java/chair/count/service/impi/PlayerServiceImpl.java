@@ -14,9 +14,9 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @Component
-public class playerServiceImpl implements PlayerService {
+public class PlayerServiceImpl implements PlayerService {
 
-    private final static Logger log = LoggerFactory.getLogger(playerServiceImpl.class);
+    private final static Logger log = LoggerFactory.getLogger(PlayerServiceImpl.class);
 
     @Autowired
     PlayerDao playerDao;
@@ -32,8 +32,6 @@ public class playerServiceImpl implements PlayerService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"該遊戲名稱已經被註冊了");
         }else{
             return playerDao.addPlayer(playerRequest);}
-
-
 
     }
 
