@@ -36,10 +36,10 @@ public class PlayerController {
     @PostMapping("/add_player")
     public String add_player(@ModelAttribute("playerRequest") PlayerRequest playerRequest){
 
-
         int playerId = playerService.addPlayer(playerRequest);
         Player player =playerService.getPlayerById(playerId);
         if(player!=null){
+
             return "create_success";
         }else{
             return "create_fail";

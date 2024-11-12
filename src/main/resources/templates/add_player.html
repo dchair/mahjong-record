@@ -11,7 +11,7 @@
     <div class="main-agileinfo">
         <div class="agileits-top">
 
-            <form id="addplayer"  method="post" th:action="@{/addplayer}" th:object="${playerRequest}">
+            <form id="addplayer"  method="post" th:action="@{/add_player}" th:object="${playerRequest}">
                 <input  type="text" th:field="*{playerName}"  placeholder="遊玩暱稱" required="">
                 <input  type="number" th:field="*{chips}"  placeholder="身上籌碼" required="">
 

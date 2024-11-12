@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.List;
+
 @Controller
 public class SettingController {
 
@@ -24,8 +26,14 @@ public class SettingController {
         model.addAttribute("gameSettingsRequest",gameSettingsRequest);
         return "game_settings";
     }
-    @PostMapping("/add_player")
+    @PostMapping("/game_setting")
     public String game_setting(@ModelAttribute("gameSettingsRequest") GameSettingsRequest gameSettingsRequest){
-        return "index";
+        int settingId =settingService.createSetting(gameSettingsRequest);
+        GameSettings gameSettings = settingService.getSettingById(settingId);
+        if (gameSettings!=null){
+            return "create_success";
+        }else {
+        return "create_fail";
+        }
     }
 }

@@ -3,7 +3,6 @@ package chair.count.dto;
 public class GameSettingsRequest {
     private Integer baseFanPrice;
     private Integer perFanPrice;
-    private Integer calculateFan;
 
     public Integer getBaseFanPrice() {
         return baseFanPrice;
@@ -21,11 +20,5 @@ public class GameSettingsRequest {
         this.perFanPrice = perFanPrice;
     }
 
-    public Integer getCalculateFan() {
-        return calculateFan;
-    }
 
-    public void setCalculateFan(Integer calculateFan) {
-        this.calculateFan = calculateFan;
-    }
 }

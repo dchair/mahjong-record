@@ -6,6 +6,7 @@ public class GameRecord {
 
     private Integer recordId;
     private String dealerName;
+    private Integer calculateFan;
     private String winnerName;
     private Integer winMoney;
     private String loserName;
@@ -28,6 +29,14 @@ public class GameRecord {
 
     public void setDealerName(String dealerName) {
         this.dealerName = dealerName;
+    }
+
+    public Integer getCalculateFan() {
+        return calculateFan;
+    }
+
+    public void setCalculateFan(Integer calculateFan) {
+        this.calculateFan = calculateFan;
     }
 
     public String getWinnerName() {

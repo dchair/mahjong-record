@@ -36,7 +36,7 @@
 
 <h1>Game Settings Request</h1>
 
-<form action="/game-settings-request" method="post" th:object="${gameSettingsRequest}">
+<form action="/game_setting" method="post" th:object="${gameSettingsRequest}">
 
     <!-- Base Fan Price -->
     <label for="baseFanPrice">Base Fan Price</label>
@@ -46,9 +46,6 @@
     <label for="perFanPrice">Per Fan Price</label>
     <input type="number" id="perFanPrice" th:field="*{perFanPrice}" required>
 
-    <!-- Calculate Fan -->
-    <label for="calculateFan">Calculate Fan</label>
-    <input type="number" id="calculateFan" th:field="*{calculateFan}" required>
 
     <!-- Submit Button -->
     <button type="submit">Save Settings</button>

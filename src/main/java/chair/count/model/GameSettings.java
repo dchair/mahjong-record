@@ -6,7 +6,6 @@ public class GameSettings {
     private Integer settingId;
     private Integer baseFanPrice;
     private Integer perFanPrice;
-    private Integer calculateFan;
     private Date createdDate;
     private Date lastModifiedDate;
 
@@ -34,13 +33,6 @@ public class GameSettings {
         this.perFanPrice = perFanPrice;
     }
 
-    public Integer getCalculateFan() {
-        return calculateFan;
-    }
-
-    public void setCalculateFan(Integer calculateFan) {
-        this.calculateFan = calculateFan;
-    }
 
     public Date getCreatedDate() {
         return createdDate;
