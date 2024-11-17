@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Game Settings</title>
+</head>
+<body>
+<h1>Game Settings</h1>
+<div>
+    <p><strong>Setting ID:</strong> <span th:text="${gameSettings.settingId}"></span></p>
+    <p><strong>Base Fan Price:</strong> <span th:text="${gameSettings.baseFanPrice}"></span></p>
+    <p><strong>Per Fan Price:</strong> <span th:text="${gameSettings.perFanPrice}"></span></p>
+    <p><strong>Created Date:</strong> <span th:text="${#dates.format(gameSettings.createdDate, 'yyyy-MM-dd HH:mm:ss')}"></span></p>
+    <p><strong>Last Modified Date:</strong> <span th:text="${#dates.format(gameSettings.lastModifiedDate, 'yyyy-MM-dd HH:mm:ss')}"></span></p>
+</div>
+</body>
+</html>

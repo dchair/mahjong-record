@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Game Record</title>
+    <script>
+        function toggleForms() {
+            const isSelfDrawn = document.getElementById("isSelfDrawn").value;
+            document.getElementById("nonSelfDrawnForm").style.display = isSelfDrawn === "no" ? "block" : "none";
+            document.getElementById("selfDrawnForm").style.display = isSelfDrawn === "yes" ? "block" : "none";
+        }
+
+    </script>
+</head>
+<body>
+<h1>Game Record Form</h1>
+
+<!-- 是否自摸選項 -->
+<label for="isSelfDrawn">Is Self-Drawn (是否自摸):</label>
+<select id="isSelfDrawn" name="isSelfDrawn" onchange="toggleForms()">
+    <option value="no">No (無自摸)</option>
+    <option value="yes">Yes (有自摸)</option>
+</select>
+
+<hr/>
+
+<!-- 無自摸的表單 -->
+<form id="nonSelfDrawnForm" action="/save_non_self_drawn" method="post" style="display: block;">
+    <h2>Non-Self-Drawn Form</h2>
+
+    <!-- 隱藏設定ID -->
+    <input type="hidden" id="settingId" name="settingId" th:value="${settingId}" />
+    <p>Setting ID: <span th:text="${settingId}"></span></p>
+
+    <!-- Dealer Name 下拉式選單 -->
+    <label for="dealerName">Dealer Name:</label>
+    <select id="dealerName" name="dealerName" required>
+        <option th:each="playerName : ${playerNames}" th:value="${playerName}" th:text="${playerName}"></option>
+    </select>
+    <br/>
+
+    <!-- Dealer Streak 輸入框 -->
+    <label for="dealerStreak">Dealer Streak(連莊):</label>
+    <input type="number" id="dealerStreak" name="dealerStreak" value="0" />
+    <br/>
+
+    <!-- Calculate Fan 輸入框 -->
+    <label for="calculateFan">Calculate Fan(台數):</label>
+    <input type="number" id="calculateFan" name="calculateFan" value="0" />
+    <br/>
+
+    <!-- Winner Name 下拉式選單 -->
+    <label for="winnerName">Winner Name(贏家):</label>
+    <select id="winnerName" name="winnerName" required>
+        <option th:each="playerName : ${playerNames}" th:value="${playerName}" th:text="${playerName}"></option>
+    </select>
+    <br/>
+
+    <label for="loserName">Loser Name(輸家):</label>
+    <select id="loserName" name="loserName" required>
+        <option th:each="playerName : ${playerNames}" th:value="${playerName}" th:text="${playerName}"></option>
+    </select>
+    <br/>
+
+    <button type="submit">Submit</button>
+</form>
+
+<!-- 自摸的表單 -->
+<form id="selfDrawnForm" action="/save_self_drawn" method="post" style="display: none;">
+    <h2>Self-Drawn Form</h2>
+
+    <!-- 隱藏設定ID -->
+    <input type="hidden" id="settingId" name="settingId" th:value="${settingId}" />
+    <p>Setting ID: <span th:text="${settingId}"></span></p>
+
+
+
+    <!-- Dealer Name 下拉式選單 -->
+    <label for="dealerName">Dealer Name:(莊家)</label>
+    <select id="dealerName" name="dealerName" required>
+        <option th:each="playerName : ${playerNames}" th:value="${playerName}" th:text="${playerName}"></option>
+    </select>
+
+    <br/>
+    <!-- Dealer Streak 輸入框 -->
+    <label for="dealerStreak">Dealer Streak(連莊):</label>
+    <input type="number" id="dealerStreak" name="dealerStreak" value="0" />
+    <br/>
+
+    <!-- Calculate Fan 輸入框 -->
+    <label for="calculateFan">Calculate Fan(台數):</label>
+    <input type="number" id="calculateFan" name="calculateFan" value="0" />
+    <br/>
+
+    <!-- Winner Name 下拉式選單 -->
+    <label for="winnerName">Winner Name(贏家):</label>
+    <select id="winnerName" name="winnerName" required>
+        <option th:each="playerName : ${playerNames}" th:value="${playerName}" th:text="${playerName}"></option>
+    </select>
+    <br/>
+
+    <!-- Player Names (以陣列形式傳遞) -->
+    <input type="hidden" th:each="playerName : ${playerNames}" th:name="playerNames" th:value="${playerName}" />
+
+
+    <button type="submit">Submit</button>
+</form>
+
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Game Settings List</title>
+    <script>
+            function redirectToRecord() {
+                const settingId = document.getElementById("settingId").value;
+                const playerName1 = document.getElementById("playerName1").value;
+                const playerName2 = document.getElementById("playerName2").value;
+                const playerName3 = document.getElementById("playerName3").value;
+                const playerName4 = document.getElementById("playerName4").value;
+
+                if (settingId && playerName1 && playerName2 && playerName3 && playerName4) {
+                    const url = `/game_setting/${settingId}/record?` +
+                    `playerName1=${encodeURIComponent(playerName1)}&` +
+                    `playerName2=${encodeURIComponent(playerName2)}&` +
+                    `playerName3=${encodeURIComponent(playerName3)}&` +
+                    `playerName4=${encodeURIComponent(playerName4)}`;
+                    window.location.href = url;
+                }
+            }
+    </script>
+</head>
+<body>
+<h1>Game Settings List</h1>
+
+<!-- 查詢指定設定的表單 -->
+<label for="settingId">Enter Setting ID:</label>
+<input type="number" id="settingId" name="settingId" required>
+<br>
+<!-- 輸入玩家名字的欄位 -->
+<label for="playerName1">Player 1:</label>
+<input type="text" id="playerName1" name="playerName1" required>
+
+<br>
+
+<label for="playerName2">Player 2:</label>
+<input type="text" id="playerName2" name="playerName2" required>
+
+<br>
+
+<label for="playerName3">Player 3:</label>
+<input type="text" id="playerName3" name="playerName3" required>
+
+<br>
+
+<label for="playerName4">Player 4:</label>
+<input type="text" id="playerName4" name="playerName4" required>
+
+<br>
+
+<button type="button" onclick="redirectToRecord()">Select</button>
+
+<div th:each="gameSettings : ${gameSettingsList}">
+    <h2>Setting ID: <span th:text="${gameSettings.settingId}"></span></h2>
+    <p><strong>Base Fan Price:</strong> <span th:text="${gameSettings.baseFanPrice}"></span></p>
+    <p><strong>Per Fan Price:</strong> <span th:text="${gameSettings.perFanPrice}"></span></p>
+    <p><strong>Created Date:</strong>
+        <span th:text="${#dates.format(gameSettings.createdDate, 'yyyy-MM-dd HH:mm:ss')}"></span>
+    </p>
+    <p><strong>Last Modified Date:</strong>
+        <span th:text="${#dates.format(gameSettings.lastModifiedDate, 'yyyy-MM-dd HH:mm:ss')}"></span>
+    </p>
+    <hr/>
+</div>
+</body>
+</html>
