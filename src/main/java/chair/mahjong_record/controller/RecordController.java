@@ -1,9 +1,9 @@
 package chair.mahjong_record.controller;
 
 import chair.mahjong_record.dto.CreateRecordRequest;
-import chair.mahjong_record.dto.GameRecordRequest;
 import chair.mahjong_record.dto.RecordInfo;
 import chair.mahjong_record.model.GameSettings;
+import chair.mahjong_record.service.RecordService;
 import chair.mahjong_record.service.SettingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +19,8 @@ import java.util.List;
 public class RecordController {
     @Autowired
     SettingService settingService;
+    @Autowired
+    RecordService recordService;
 
 
     @GetMapping("/game_setting/{settingId}/record")
