@@ -4,7 +4,9 @@ import chair.mahjong_record.dto.CreateRecordRequest;
 import chair.mahjong_record.dto.RecordInfo;
 import chair.mahjong_record.model.GameSettings;
 import chair.mahjong_record.service.RecordService;
+import chair.mahjong_record.service.SetIdTracker;
 import chair.mahjong_record.service.SettingService;
+import chair.mahjong_record.service.impi.SetIdTrackerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -21,7 +23,8 @@ public class RecordController {
     SettingService settingService;
     @Autowired
     RecordService recordService;
-
+    @Autowired
+    SetIdTracker setIdTracker;
 
     @GetMapping("/game_setting/{settingId}/record")
     public String game_record(@PathVariable Integer settingId,
@@ -77,18 +80,25 @@ public class RecordController {
 
         //檢查輸出
         System.out.println(createRecordRequest);
+        int saveId = setIdTracker.getAndIncrementSetId(1);// 每次請求自增
+        System.out.println(saveId);
         return ResponseEntity.ok(createRecordRequest);
     }
 
     @PostMapping("/save_non_self_drawn")
-        public ResponseEntity<RecordInfo> saveNonSelfDrawn(@RequestParam Integer settingId,
-                                                           @ModelAttribute("recordInfo") RecordInfo recordInfo){
+        public String saveNonSelfDrawn(@RequestParam Integer settingId,
+                                                           @ModelAttribute("recordInfo") RecordInfo recordInfo,
+                                                           @RequestParam(required = false) Integer setId){
         System.out.println(recordInfo);
+        System.out.println(settingId);
         System.out.println(settingId);
 
         //使用service來計算邏輯
-        recordService.createNDRecord(settingId,recordInfo);
-        return ResponseEntity.ok(recordInfo) ;
+        int nonSaveId = setIdTracker.getAndIncrementSetId(1);// 每次請求自增
+        recordService.createNDRecord(settingId,recordInfo,nonSaveId);
+        String url="/game_setting/"+settingId+"/record/"+nonSaveId;
+        return url;
+       // return ResponseEntity.ok(recordInfo) ;
     }
 
 }
