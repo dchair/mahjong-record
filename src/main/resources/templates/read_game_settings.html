@@ -4,12 +4,33 @@
     <meta charset="UTF-8">
     <title>Game Settings List</title>
     <script>
+        // 當頁面加載完成後從 localStorage 還原玩家資料
+        document.addEventListener("DOMContentLoaded", () => {
+            const playerInputs = JSON.parse(localStorage.getItem("playerInputs"));
+            if (playerInputs) {
+                document.getElementById("settingId").value = playerInputs.settingId;
+                document.getElementById("playerName1").value = playerInputs.playerName1;
+                document.getElementById("playerName2").value = playerInputs.playerName2;
+                document.getElementById("playerName3").value = playerInputs.playerName3;
+                document.getElementById("playerName4").value = playerInputs.playerName4;
+            }
+        });
+        // 將玩家資料保存到 localStorage 並跳轉到 record 頁面
             function redirectToRecord() {
                 const settingId = document.getElementById("settingId").value;
                 const playerName1 = document.getElementById("playerName1").value;
                 const playerName2 = document.getElementById("playerName2").value;
                 const playerName3 = document.getElementById("playerName3").value;
                 const playerName4 = document.getElementById("playerName4").value;
+
+                // 儲存玩家輸入到 localStorage
+                localStorage.setItem("playerInputs", JSON.stringify({
+                    settingId,
+                    playerName1,
+                    playerName2,
+                    playerName3,
+                    playerName4
+                }));
 
                 if (settingId && playerName1 && playerName2 && playerName3 && playerName4) {
                     const url = `/game_setting/${settingId}/record?` +

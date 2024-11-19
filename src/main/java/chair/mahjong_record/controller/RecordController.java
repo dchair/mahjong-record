@@ -96,9 +96,8 @@ public class RecordController {
         //使用service來計算邏輯
         int nonSaveId = setIdTracker.getAndIncrementSetId(1);// 每次請求自增
         recordService.createNDRecord(settingId,recordInfo,nonSaveId);
-        String url="/game_setting/"+settingId+"/record/"+nonSaveId;
-        return url;
-       // return ResponseEntity.ok(recordInfo) ;
+        return "redirect:/game_settings";
+
     }
 
 }
