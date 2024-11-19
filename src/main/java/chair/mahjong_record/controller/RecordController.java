@@ -6,7 +6,6 @@ import chair.mahjong_record.model.GameSettings;
 import chair.mahjong_record.service.RecordService;
 import chair.mahjong_record.service.SetIdTracker;
 import chair.mahjong_record.service.SettingService;
-import chair.mahjong_record.service.impi.SetIdTrackerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -87,8 +86,7 @@ public class RecordController {
 
     @PostMapping("/save_non_self_drawn")
         public String saveNonSelfDrawn(@RequestParam Integer settingId,
-                                                           @ModelAttribute("recordInfo") RecordInfo recordInfo,
-                                                           @RequestParam(required = false) Integer setId){
+                                                           @ModelAttribute("recordInfo") RecordInfo recordInfo){
         System.out.println(recordInfo);
         System.out.println(settingId);
         System.out.println(settingId);
