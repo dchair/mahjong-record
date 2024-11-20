@@ -7,7 +7,6 @@ import chair.mahjong_record.service.RecordService;
 import chair.mahjong_record.service.SetIdTracker;
 import chair.mahjong_record.service.SettingService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -47,7 +46,7 @@ public class RecordController {
 
     }
     @PostMapping("/save_self_drawn")
-    public ResponseEntity<?> saveSelfDrawn( @RequestParam Integer settingId,
+    public String saveSelfDrawn( @RequestParam Integer settingId,
                                              @RequestParam String dealerName,
                                              @RequestParam Integer dealerStreak,
                                              @RequestParam Integer calculateFan,
@@ -81,7 +80,8 @@ public class RecordController {
         System.out.println(createRecordRequest);
         int saveId = setIdTracker.getAndIncrementSetId(1);// 每次請求自增
         System.out.println(saveId);
-        return ResponseEntity.ok(createRecordRequest);
+        recordService.createDRecord(settingId,createRecordRequest,saveId);
+        return "redirect:/game_settings";
     }
 
     @PostMapping("/save_non_self_drawn")

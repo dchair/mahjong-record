@@ -81,4 +81,17 @@ public class PlayerDaoImpl implements PlayerDao {
                 "FROM player";
         return namedParameterJdbcTemplate.query(sql, new PlayerRowMapper());
     }
+
+    @Override
+    public void updatePlayerChips(Integer playerId, Integer chips) {
+        String sql ="UPDATE player SET chips = :chips ,last_modified_date = :lastModifiedDate"+
+                " WHERE player_id = :playerId";
+        Map<String, Object> map = new HashMap<>();
+        map.put("playerId",playerId);
+        map.put("chips",chips);
+        map.put("lastModifiedDate",new Date());
+
+        namedParameterJdbcTemplate.update(sql,map);
+
+    }
 }

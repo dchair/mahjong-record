@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -43,4 +44,34 @@ public class RecordDaoImpl implements RecordDao {
         int recordId = keyHolder.getKey().intValue();
         return recordId;
     }
+
+    @Override
+    public void createDRecord(List<GameRecord> gameRecordList) {
+        String sql= "INSERT INTO game_record(setting_id,dealer_name,calculate_fan," +
+                "winner_name,win_money,loser_name,lose_money,set_id,created_date," +
+                "last_modified_date) VALUES(:setting_id,:dealer_name,:calculate_fan," +
+                ":winner_name,:win_money,:loser_name,:lose_money,:set_id,:created_date,:last_modified_date)";
+
+        MapSqlParameterSource[] parameterSources = new MapSqlParameterSource[gameRecordList.size()];
+
+        Date now = new Date();
+        for(int i=0; i<gameRecordList.size();i++){
+            GameRecord gameRecord = gameRecordList.get(i);
+
+            parameterSources[i] = new MapSqlParameterSource();
+            parameterSources[i].addValue("setting_id", gameRecord.getSettingId());
+            parameterSources[i].addValue("dealer_name", gameRecord.getDealerName());
+            parameterSources[i].addValue("calculate_fan", gameRecord.getCalculateFan());
+            parameterSources[i].addValue("winner_name", gameRecord.getWinnerName());
+            parameterSources[i].addValue("win_money", gameRecord.getWinMoney());
+            parameterSources[i].addValue("loser_name", gameRecord.getLoserName());
+            parameterSources[i].addValue("lose_money", gameRecord.getLoseMoney());
+            parameterSources[i].addValue("set_id", gameRecord.getSetId());
+            parameterSources[i].addValue("created_date", now);
+            parameterSources[i].addValue("last_modified_date", now);
+
+        }
+        namedParameterJdbcTemplate.batchUpdate(sql, parameterSources);
+    }
+
 }

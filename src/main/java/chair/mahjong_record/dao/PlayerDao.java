@@ -10,5 +10,6 @@ public interface PlayerDao {
     Player getPlayerById(Integer playerId);
     Player getPlayerByName(String playerName);
     List<Player> getPlayers();
+    void updatePlayerChips(Integer playerId, Integer chips);
 
 }
