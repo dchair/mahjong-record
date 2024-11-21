@@ -1,0 +1,25 @@
+<!-- result.html -->
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>Result Page</title>
+</head>
+<body>
+<!-- 用 Thymeleaf 渲染 Model 中的屬性 -->
+<div id="message" th:text="${message}"></div>
+<div id="redirectUrl" th:text="${redirectUrl}"></div>
+
+<script type="text/javascript">
+    // 使用 JavaScript 讀取 Model 中的屬性
+    const message = document.getElementById('message').innerText;
+    const redirectUrl = document.getElementById('redirectUrl').innerText;
+
+    // 顯示警告框
+    alert(message);  // 這裡會顯示 "Create Success!" 或 "Create Failed!"
+
+    // 跳轉到指定的 URL
+    window.location.href = redirectUrl;  // 根據 redirectUrl 跳轉
+</script>
+</body>
+</html>

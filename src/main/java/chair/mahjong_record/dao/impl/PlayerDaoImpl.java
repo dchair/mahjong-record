@@ -83,6 +83,17 @@ public class PlayerDaoImpl implements PlayerDao {
     }
 
     @Override
+    public void deletePlayerById(Integer playerId) {
+        String sql = "DELETE FROM player WHERE player_id = :playerId";
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("playerId",playerId);
+
+        namedParameterJdbcTemplate.update(sql,map);
+
+    }
+
+    @Override
     public void updatePlayerChips(Integer playerId, Integer chips) {
         String sql ="UPDATE player SET chips = :chips ,last_modified_date = :lastModifiedDate"+
                 " WHERE player_id = :playerId";

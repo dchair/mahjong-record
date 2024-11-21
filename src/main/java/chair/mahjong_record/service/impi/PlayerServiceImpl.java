@@ -36,6 +36,11 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
+    public void deletePlayerById(Integer playerId) {
+        playerDao.deletePlayerById(playerId);
+    }
+
+    @Override
     public Player getPlayerById(Integer playerId) {
         return playerDao.getPlayerById(playerId);
     }

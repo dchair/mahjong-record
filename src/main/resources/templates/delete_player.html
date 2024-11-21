@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Player</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<body>
+<h1>Player List</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>Player ID</th>
+        <th>Player Name</th>
+        <th>Chips</th>
+        <th>Created Date</th>
+        <th>Last Modified Date</th>
+        <th>Delete</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- 使用 Thymeleaf 迴圈渲染資料 -->
+    <tr th:each="player : ${players}">
+        <td th:text="${player.playerId}"></td>
+        <td th:text="${player.playerName}"></td>
+        <td th:text="${player.chips}"></td>
+        <td th:text="${#dates.format(player.createdDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+        <td th:text="${#dates.format(player.lastModifiedDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+        <td>
+            <form th:action="@{/delete_player/{playerId}(playerId=${player.playerId})}" method="post"
+                  onsubmit="return confirm('確定要刪除此玩家嗎？');">
+                <button type="submit">刪除</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

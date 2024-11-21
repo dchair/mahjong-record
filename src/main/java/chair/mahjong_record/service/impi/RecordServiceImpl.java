@@ -91,8 +91,6 @@ public class RecordServiceImpl  implements RecordService {
             playerDao.updatePlayerChips(winnerPlayer.getPlayerId(),winnerPlayer.getChips()+winMoney);
             playerDao.updatePlayerChips(loserPlayer.getPlayerId(),loserPlayer.getChips()+loseMoney);
 
-
-
             gameRecord.setSettingId(settingId);
             gameRecord.setDealerName(recordInfo.getDealerName());
             gameRecord.setCalculateFan(calculateFan);
@@ -104,7 +102,6 @@ public class RecordServiceImpl  implements RecordService {
 
                 //存放數據
             gameRecordList.add(gameRecord);
-
         }
         recordDao.createDRecord(gameRecordList);
     }

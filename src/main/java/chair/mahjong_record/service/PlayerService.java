@@ -11,4 +11,5 @@ public interface PlayerService {
     Integer addPlayer(PlayerRequest playerRequest);
     Player getPlayerById(Integer playerId);
     List<Player>getPlayers();
+    void deletePlayerById(Integer playerId);
 }
