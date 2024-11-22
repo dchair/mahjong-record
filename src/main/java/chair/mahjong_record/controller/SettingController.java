@@ -26,14 +26,18 @@ public class SettingController {
         return "game_settings";
     }
     @PostMapping("/add_game_setting")
-    public String game_setting(@ModelAttribute("gameSettingsRequest") GameSettingsRequest gameSettingsRequest){
+    public String game_setting(@ModelAttribute("gameSettingsRequest") GameSettingsRequest gameSettingsRequest,
+                               Model model){
         int settingId =settingService.createSetting(gameSettingsRequest);
         GameSettings gameSettings = settingService.getSettingById(settingId);
-        if (gameSettings!=null){
-            return "create_success";
-        }else {
-        return "create_fail";
+        if(gameSettings!=null){
+            model.addAttribute("message", "Create Success!");
+            model.addAttribute("redirectUrl", "/index"); // 設定跳轉的目標 URL
+        }else{
+            model.addAttribute("message", "Create Failed!");
+            model.addAttribute("redirectUrl", "/add_player");
         }
+        return "result";
     }
     @GetMapping("/game_setting/{settingId}")
         public String read_game_setting(@PathVariable Integer settingId,
