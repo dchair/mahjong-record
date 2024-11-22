@@ -15,6 +15,8 @@
                 document.getElementById("playerName4").value = playerInputs.playerName4;
             }
         });
+
+
         // 將玩家資料保存到 localStorage 並跳轉到 record 頁面
             function redirectToRecord() {
                 const settingId = document.getElementById("settingId").value;
@@ -23,24 +25,43 @@
                 const playerName3 = document.getElementById("playerName3").value;
                 const playerName4 = document.getElementById("playerName4").value;
 
-                // 儲存玩家輸入到 localStorage
-                localStorage.setItem("playerInputs", JSON.stringify({
-                    settingId,
-                    playerName1,
-                    playerName2,
-                    playerName3,
-                    playerName4
-                }));
+                //收集玩家名稱
+                const playerNames =[playerName1,playerName2,playerName3,playerName4];
 
-                if (settingId && playerName1 && playerName2 && playerName3 && playerName4) {
-                    const url = `/game_setting/${settingId}/record?` +
-                    `playerName1=${encodeURIComponent(playerName1)}&` +
-                    `playerName2=${encodeURIComponent(playerName2)}&` +
-                    `playerName3=${encodeURIComponent(playerName3)}&` +
-                    `playerName4=${encodeURIComponent(playerName4)}`;
-                    window.location.href = url;
-                }
-            }
+                // 發送 AJAX 請求到後端
+                fetch('/api/players/validate',{
+                    method:'POST',
+                    headers:{
+                        'Content-Type':'application/json'
+                    },
+                    body:JSON.stringify(playerNames)
+                })
+                    .then(response=>response.json())
+                    .then(data=>{
+                        const invalidPlayers =Object.entries(data).filter(([name,exists])=>!exists);
+                        if(invalidPlayers.length>0) {
+                            //顯示錯誤訊息
+                            alert("以下玩家名稱不存在: " + invalidPlayers.map(([name]) => name).join(", "));
+                        }else{
+                            //儲存資料並跳轉
+                                localStorage.setItem("playerInputs",JSON.stringify({
+                                    settingId,
+                                    playerName1,
+                                    playerName2,
+                                    playerName3,
+                                    playerName4
+                                }));
+                                const url = `/game_setting/${settingId}/record?` +
+                                    `playerName1=${encodeURIComponent(playerName1)}&` +
+                                    `playerName2=${encodeURIComponent(playerName2)}&` +
+                                    `playerName3=${encodeURIComponent(playerName3)}&` +
+                                    `playerName4=${encodeURIComponent(playerName4)}`;
+                                window.location.href = url;
+                            }
+                    })
+                    .catch(error => console.error('Error',error));
+        }
+
     </script>
 </head>
 <body>

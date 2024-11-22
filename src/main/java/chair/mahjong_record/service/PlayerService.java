@@ -12,4 +12,5 @@ public interface PlayerService {
     Player getPlayerById(Integer playerId);
     List<Player>getPlayers();
     void deletePlayerById(Integer playerId);
+    Boolean isPlayerExists(String playerName);
 }

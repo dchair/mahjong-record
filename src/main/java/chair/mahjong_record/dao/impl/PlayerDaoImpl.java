@@ -5,6 +5,7 @@ import chair.mahjong_record.dto.PlayerRequest;
 import chair.mahjong_record.model.Player;
 import chair.mahjong_record.rowMapper.PlayerRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -104,5 +105,21 @@ public class PlayerDaoImpl implements PlayerDao {
 
         namedParameterJdbcTemplate.update(sql,map);
 
+    }
+
+    @Override
+    public Player checkPlayerByName(String playerName) {
+        String sql ="SELECT player_id,player_name,chips,created_date,last_modified_date FROM player" +
+                " WHERE player_name = :playerName";
+        Map<String, Object> map = new HashMap<>();
+        map.put("playerName",playerName);
+
+        try{
+            return namedParameterJdbcTemplate.queryForObject(
+                    sql,map,new BeanPropertyRowMapper<Player>(Player.class)
+            );
+        }catch(Exception e){
+            return null;
+        }
     }
 }
