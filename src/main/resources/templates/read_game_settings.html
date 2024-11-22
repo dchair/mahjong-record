@@ -72,6 +72,7 @@
 <br>
 
 <button type="button" onclick="redirectToRecord()">Select</button>
+<button onclick="location.href='/index'">返回首頁</button>
 
 <div th:each="gameSettings : ${gameSettingsList}">
     <h2>Setting ID: <span th:text="${gameSettings.settingId}"></span></h2>
