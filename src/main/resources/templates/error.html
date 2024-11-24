@@ -6,14 +6,14 @@
     <title>error</title>
     <script>
         setTimeout(function (){
-            window.location.href=`/index`
+            window.history.back();
         },2000);
     </script>
 </head>
 <body>
     <h1>發生錯誤</h1>
         <p th:text="${errormessage}"></p>
-        <p>系統將在2秒後自動跳轉至首頁...</p>
+        <p>系統將在2秒後自動跳轉至上一頁...</p>
 
 </body>
 </html>

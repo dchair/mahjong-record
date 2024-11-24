@@ -9,4 +9,5 @@ public interface SettingService {
     Integer createSetting(GameSettingsRequest gameSettingsRequest);
     GameSettings getSettingById(Integer settingId);
     List<GameSettings> getSettings();
+    Boolean isSettingExists(Integer settingId);
 }

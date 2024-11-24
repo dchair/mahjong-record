@@ -27,7 +27,7 @@ public class RecordServiceImpl  implements RecordService {
 
     @Transactional
     @Override
-    public Integer createNDRecord(Integer settingId, RecordInfo recordInfo,Integer nonSaveId) {
+    public void createNDRecord(Integer settingId, RecordInfo recordInfo,Integer nonSaveId) {
 
         GameRecord gameRecord =new GameRecord();
         //算台數;台數=calculateFan台數+莊家(有無)+(連莊台數*2)
@@ -60,7 +60,7 @@ public class RecordServiceImpl  implements RecordService {
         gameRecord.setLoseMoney(loseMoney);
         gameRecord.setSetId(nonSaveId);
 
-        return recordDao.createNDRecord(gameRecord);
+        recordDao.createNDRecord(gameRecord);
     }
 
     @Override

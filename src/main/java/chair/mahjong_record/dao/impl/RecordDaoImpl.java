@@ -21,7 +21,7 @@ public class RecordDaoImpl implements RecordDao {
     NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     @Override
-    public Integer createNDRecord(GameRecord gameRecord) {
+    public void createNDRecord(GameRecord gameRecord) {
         String sql ="INSERT INTO game_record (setting_id,dealer_name,calculate_fan," +
                 "winner_name,win_money,loser_name,lose_money,set_id,created_date," +
                 "last_modified_date) VALUES(:setting_id,:dealer_name,:calculate_fan," +
@@ -41,8 +41,6 @@ public class RecordDaoImpl implements RecordDao {
         map.put("last_modified_date", now);
         KeyHolder keyHolder = new GeneratedKeyHolder();
         namedParameterJdbcTemplate.update(sql, new MapSqlParameterSource(map),keyHolder);
-        int recordId = keyHolder.getKey().intValue();
-        return recordId;
     }
 
     @Override

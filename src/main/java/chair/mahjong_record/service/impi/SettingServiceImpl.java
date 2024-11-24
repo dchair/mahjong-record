@@ -29,4 +29,9 @@ public class SettingServiceImpl implements SettingService {
     public List<GameSettings> getSettings() {
         return settingDao.getSettings();
     }
+
+    @Override
+    public Boolean isSettingExists(Integer settingId) {
+        return settingDao.isSettingExists(settingId) !=null;
+    }
 }

@@ -5,6 +5,7 @@ import chair.mahjong_record.dto.GameSettingsRequest;
 import chair.mahjong_record.model.GameSettings;
 import chair.mahjong_record.rowMapper.SettingRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -63,5 +64,22 @@ public class SettingDaoImpl implements SettingDao {
         String sql="SELECT setting_id,base_fan_price,per_fan_price," +
                 "created_date,last_modified_date FROM game_settings";
         return namedParameterJdbcTemplate.query(sql, new SettingRowMapper());
+    }
+
+    @Override
+    public GameSettings isSettingExists(Integer settingId) {
+        String sql ="SELECT setting_id,base_fan_price,per_fan_price," +
+                "created_date,last_modified_date FROM game_settings WHERE " +
+                " setting_id =:settingId";
+        Map<String, Object> map = new HashMap<>();
+        map.put("settingId", settingId);
+
+        try{
+            return namedParameterJdbcTemplate.queryForObject(
+                    sql,map,new BeanPropertyRowMapper<GameSettings>(GameSettings.class)
+            );
+        }catch (Exception e){
+            return null;
+        }
     }
 }

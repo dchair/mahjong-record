@@ -5,6 +5,6 @@ import chair.mahjong_record.model.GameRecord;
 import java.util.List;
 
 public interface RecordDao {
-    Integer createNDRecord(GameRecord gameRecord);
+    void createNDRecord(GameRecord gameRecord);
     void createDRecord(List<GameRecord> gameRecordList);
 }

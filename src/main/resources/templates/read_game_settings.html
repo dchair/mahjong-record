@@ -16,53 +16,64 @@
             }
         });
 
-
         // 將玩家資料保存到 localStorage 並跳轉到 record 頁面
-            function redirectToRecord() {
-                const settingId = document.getElementById("settingId").value;
-                const playerName1 = document.getElementById("playerName1").value;
-                const playerName2 = document.getElementById("playerName2").value;
-                const playerName3 = document.getElementById("playerName3").value;
-                const playerName4 = document.getElementById("playerName4").value;
+        async function redirectToRecord() {
+            const settingId = document.getElementById("settingId").value;
+            const playerName1 = document.getElementById("playerName1").value;
+            const playerName2 = document.getElementById("playerName2").value;
+            const playerName3 = document.getElementById("playerName3").value;
+            const playerName4 = document.getElementById("playerName4").value;
 
-                //收集玩家名稱
-                const playerNames =[playerName1,playerName2,playerName3,playerName4];
+            // 收集玩家名稱
+            const playerNames = [playerName1, playerName2, playerName3, playerName4];
 
-                // 發送 AJAX 請求到後端
-                fetch('/api/players/validate',{
-                    method:'POST',
-                    headers:{
-                        'Content-Type':'application/json'
+            try {
+                // 發送請求到後端檢查 settingId 是否存在
+                const settingResponse = await fetch(`api/setting/validate/${settingId}`);
+                if (!settingResponse.ok) {
+                    // 如果後端回傳非 2xx 狀態，跳轉到錯誤頁面
+                    const errorMessage = await settingResponse.text();
+                    window.location.href = `/error-page?message=${encodeURIComponent(errorMessage)}`;
+                    return; // 終止後續執行
+                }
+
+                // 如果設定檢查通過，進行玩家名稱檢查
+                const playerResponse = await fetch('/api/players/validate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
                     },
-                    body:JSON.stringify(playerNames)
-                })
-                    .then(response=>response.json())
-                    .then(data=>{
-                        const invalidPlayers =Object.entries(data).filter(([name,exists])=>!exists);
-                        if(invalidPlayers.length>0) {
-                            //顯示錯誤訊息
-                            alert("以下玩家名稱不存在: " + invalidPlayers.map(([name]) => name).join(", "));
-                        }else{
-                            //儲存資料並跳轉
-                                localStorage.setItem("playerInputs",JSON.stringify({
-                                    settingId,
-                                    playerName1,
-                                    playerName2,
-                                    playerName3,
-                                    playerName4
-                                }));
-                                const url = `/game_setting/${settingId}/record?` +
-                                    `playerName1=${encodeURIComponent(playerName1)}&` +
-                                    `playerName2=${encodeURIComponent(playerName2)}&` +
-                                    `playerName3=${encodeURIComponent(playerName3)}&` +
-                                    `playerName4=${encodeURIComponent(playerName4)}`;
-                                window.location.href = url;
-                            }
-                    })
-                    .catch(error => console.error('Error',error));
-        }
+                    body: JSON.stringify(playerNames)
+                });
 
+                const playerData = await playerResponse.json();
+                const invalidPlayers = Object.entries(playerData).filter(([name, exists]) => !exists);
+
+                if (invalidPlayers.length > 0) {
+                    // 顯示錯誤訊息
+                    alert("以下玩家名稱不存在: " + invalidPlayers.map(([name]) => name).join(", "));
+                } else {
+                    // 儲存資料並跳轉
+                    localStorage.setItem("playerInputs", JSON.stringify({
+                        settingId,
+                        playerName1,
+                        playerName2,
+                        playerName3,
+                        playerName4
+                    }));
+                    const url = `/game_setting/${settingId}/record?` +
+                        `playerName1=${encodeURIComponent(playerName1)}&` +
+                        `playerName2=${encodeURIComponent(playerName2)}&` +
+                        `playerName3=${encodeURIComponent(playerName3)}&` +
+                        `playerName4=${encodeURIComponent(playerName4)}`;
+                    window.location.href = url;
+                }
+            } catch (error) {
+                console.error('Error:', error.message);
+            }
+        }
     </script>
+
 </head>
 <body>
 <h1>Game Settings List</h1>
@@ -93,7 +104,7 @@
 <br>
 
 <button type="button" onclick="redirectToRecord()">Select</button>
-<button onclick="location.href='/index'">返回首頁</button>
+<button type="button" onclick="location.href='/index'">返回首頁</button>
 
 <div th:each="gameSettings : ${gameSettingsList}">
     <h2>Setting ID: <span th:text="${gameSettings.settingId}"></span></h2>

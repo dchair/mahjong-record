@@ -9,4 +9,5 @@ public interface SettingDao {
     Integer createSetting(GameSettingsRequest gameSettingsRequest);
     GameSettings getSettingById(Integer settingId);
     List<GameSettings> getSettings();
+    GameSettings isSettingExists(Integer settingId);
 }

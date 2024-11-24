@@ -6,6 +6,6 @@ import chair.mahjong_record.dto.RecordInfo;
 import java.util.List;
 
 public interface RecordService {
-    Integer createNDRecord(Integer settingId, RecordInfo recordInfo,Integer nonSaveId);
+    void createNDRecord(Integer settingId, RecordInfo recordInfo,Integer nonSaveId);
     void createDRecord(Integer settingId, CreateRecordRequest createRecordRequest, Integer saveId);
 }
