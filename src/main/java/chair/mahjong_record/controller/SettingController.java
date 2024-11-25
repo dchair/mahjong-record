@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.util.List;
-
 @Controller
 public class SettingController {
 
@@ -50,12 +48,7 @@ public class SettingController {
             return "error";
         }
     }
-    @GetMapping("/game_settings")
-    public String settings(Model model) {
-        List<GameSettings> gameSettingsList = settingService.getSettings();
-        model.addAttribute("gameSettingsList",gameSettingsList);
-        return "read_game_settings";
-    }
+
     @GetMapping("/setting/validate/{settingId}")
     public String checkSetting(@PathVariable("settingId") Integer settingId, Model model) {
         // 檢查settingId是否存在

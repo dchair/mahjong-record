@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Game Record</title>
+    <script>
+        function validateForm() {
+            const settingId = document.getElementById("settingIdDropdown").value;
+            const playerNames = [
+                document.getElementById("playerName1Dropdown").value,
+                document.getElementById("playerName2Dropdown").value,
+                document.getElementById("playerName3Dropdown").value,
+                document.getElementById("playerName4Dropdown").value
+            ];
+
+            // 檢查是否有選取 Setting ID
+            if (!settingId) {
+                alert("請選取 Setting ID！");
+                return false;
+            }
+
+            // 檢查 PlayerName 是否有重複或未選取
+            const selectedPlayers = playerNames.filter(name => name);
+            if (selectedPlayers.length < 4) {
+                alert("請選取所有 Player Names！");
+                return false;
+            }
+
+            const duplicates = selectedPlayers.filter((name, index, arr) => arr.indexOf(name) !== index);
+            if (duplicates.length > 0) {
+                alert("Player Names 不能重複選取！");
+                return false;
+            }
+
+            // 如果驗證通過
+            return true;
+        }
+    </script>
+</head>
+<body>
+<h1>Game Record List</h1>
+<!---->
+<div  th:each="gameSettings : ${gameSettingsList}" style="display:none;">
+    <h2>Setting ID: <span  th:text="${gameSettings.settingId}"></span></h2>
+</div>
+<div  th:each="player : ${players}" style="display:none;" >
+    <h2>PlayerName: <span  th:text="${player.playerName}"></span></h2>
+</div>
+
+<form action="record" method="post" onsubmit="return validateForm()">
+
+<!-- Setting ID 下拉選單 -->
+<label for="settingIdDropdown">Select Setting ID:</label>
+<select id="settingIdDropdown" name="settingId" required>
+    <option value="">-- Select a Setting ID --</option>
+    <option th:each="gameSettings : ${gameSettingsList}"
+            th:value="${gameSettings.settingId}"
+            th:text="${gameSettings.settingId}">
+    </option>
+</select>
+<br><br>
+
+<!-- Player Name 下拉選單 -->
+<label for="playerName1Dropdown">Player 1:</label>
+<select id="playerName1Dropdown" name="playerName1" required>
+    <option value="">-- Select Player 1 --</option>
+    <option th:each="player : ${players}"
+            th:value="${player.playerName}"
+            th:text="${player.playerName}">
+    </option>
+</select>
+<br><br>
+
+<label for="playerName2Dropdown">Player 2:</label>
+<select id="playerName2Dropdown" name="playerName2" required>
+    <option value="">-- Select Player 2 --</option>
+    <option th:each="player : ${players}"
+            th:value="${player.playerName}"
+            th:text="${player.playerName}">
+    </option>
+</select>
+<br><br>
+
+<label for="playerName3Dropdown">Player 3:</label>
+<select id="playerName3Dropdown" name="playerName3" required>
+    <option value="">-- Select Player 3 --</option>
+    <option th:each="player : ${players}"
+            th:value="${player.playerName}"
+            th:text="${player.playerName}">
+    </option>
+</select>
+<br><br>
+
+<label for="playerName4Dropdown">Player 4:</label>
+<select id="playerName4Dropdown" name="playerName4" required>
+    <option value="">-- Select Player 4 --</option>
+    <option th:each="player : ${players}"
+            th:value="${player.playerName}"
+            th:text="${player.playerName}">
+    </option>
+</select>
+<br><br>
+
+    <button type="submit">Submit</button>
+</form>
+
+
+
+
+
+</body>
+</html>

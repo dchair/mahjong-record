@@ -72,6 +72,11 @@
                 console.error('Error:', error.message);
             }
         }
+        function updateHiddenSettingId() {
+            const selectedValue = document.getElementById("settingIdDropdown").value;
+            document.getElementById("settingId").value = selectedValue;
+        }
+
     </script>
 
 </head>
@@ -79,8 +84,16 @@
 <h1>Game Settings List</h1>
 
 <!-- 查詢指定設定的表單 -->
-<label for="settingId">Enter Setting ID:</label>
-<input type="number" id="settingId" name="settingId" required>
+<!--<label for="settingId">Enter Setting ID:</label>-->
+<!--<input type="number" id="settingId" name="settingId" required>-->
+
+<select id="settingIdDropdown" name="settingId" onchange="updateHiddenSettingId()" required>
+    <option value="">-- Select a Setting ID --</option>
+    <option th:each="gameSettings : ${gameSettingsList}"
+            th:value="${gameSettings.settingId}"
+            th:text="${gameSettings.settingId}">
+    </option>
+</select>
 <br>
 <!-- 輸入玩家名字的欄位 -->
 <label for="playerName1">Player 1:</label>
@@ -106,17 +119,17 @@
 <button type="button" onclick="redirectToRecord()">Select</button>
 <button type="button" onclick="location.href='/index'">返回首頁</button>
 
-<div th:each="gameSettings : ${gameSettingsList}">
-    <h2>Setting ID: <span th:text="${gameSettings.settingId}"></span></h2>
-    <p><strong>Base Fan Price:</strong> <span th:text="${gameSettings.baseFanPrice}"></span></p>
-    <p><strong>Per Fan Price:</strong> <span th:text="${gameSettings.perFanPrice}"></span></p>
-    <p><strong>Created Date:</strong>
-        <span th:text="${#dates.format(gameSettings.createdDate, 'yyyy-MM-dd HH:mm:ss')}"></span>
-    </p>
-    <p><strong>Last Modified Date:</strong>
-        <span th:text="${#dates.format(gameSettings.lastModifiedDate, 'yyyy-MM-dd HH:mm:ss')}"></span>
-    </p>
-    <hr/>
+<div  th:each="gameSettings : ${gameSettingsList}" style="display:none;">
+    <h2>Setting ID: <span  th:text="${gameSettings.settingId}"></span></h2>
+<!--    <p><strong>Base Fan Price:</strong> <span th:text="${gameSettings.baseFanPrice}"></span></p>-->
+<!--    <p><strong>Per Fan Price:</strong> <span th:text="${gameSettings.perFanPrice}"></span></p>-->
+<!--    <p><strong>Created Date:</strong>-->
+<!--        <span th:text="${#dates.format(gameSettings.createdDate, 'yyyy-MM-dd HH:mm:ss')}"></span>-->
+<!--    </p>-->
+<!--    <p><strong>Last Modified Date:</strong>-->
+<!--        <span th:text="${#dates.format(gameSettings.lastModifiedDate, 'yyyy-MM-dd HH:mm:ss')}"></span>-->
+<!--    </p>-->
+<!--    <hr/>-->
 </div>
 
 </body>
