@@ -1,6 +1,6 @@
-package chair.mahjong_record.service.impi;
+package chair.mahjong_record.Tracker.Impl;
 
-import chair.mahjong_record.service.SetIdTracker;
+import chair.mahjong_record.Tracker.SetIdTracker;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.ConcurrentHashMap;
@@ -19,5 +19,10 @@ public class SetIdTrackerService implements SetIdTracker {
     @Override
     public void resetSetId(Integer key) {
         setIdTracker.put(key, new AtomicInteger(1));
+    }
+
+    @Override
+    public int getCurrentSetId(Integer key) {
+        return setIdTracker.getOrDefault(key, new AtomicInteger(1)).get();
     }
 }

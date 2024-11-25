@@ -6,7 +6,7 @@ import chair.mahjong_record.model.GameSettings;
 import chair.mahjong_record.model.Player;
 import chair.mahjong_record.service.PlayerService;
 import chair.mahjong_record.service.RecordService;
-import chair.mahjong_record.service.SetIdTracker;
+import chair.mahjong_record.Tracker.SetIdTracker;
 import chair.mahjong_record.service.SettingService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
