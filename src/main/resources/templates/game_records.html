@@ -29,29 +29,29 @@
     <h2>Non-Self-Drawn Form</h2>
 
     <!-- 隱藏設定ID -->
-    <input type="hidden" id="settingId" name="settingId" th:value="${settingId}" />
+    <input type="hidden" id="ndsettingId" name="settingId" th:value="${settingId}" />
     <p>Setting ID: <span th:text="${settingId}"></span></p>
 
     <!-- Dealer Name 下拉式選單 -->
     <label for="dealerName">Dealer Name:</label>
-    <select id="dealerName" name="dealerName" required>
+    <select id="nsdealerName" name="dealerName" required>
         <option th:each="playerName : ${playerNames}" th:value="${playerName}" th:text="${playerName}"></option>
     </select>
     <br/>
 
     <!-- Dealer Streak 輸入框 -->
     <label for="dealerStreak">Dealer Streak(連莊):</label>
-    <input type="number" id="dealerStreak" name="dealerStreak" value="0" />
+    <input type="number" id="nsdealerStreak" name="dealerStreak" value="0" />
     <br/>
 
     <!-- Calculate Fan 輸入框 -->
     <label for="calculateFan">Calculate Fan(台數):</label>
-    <input type="number" id="calculateFan" name="calculateFan" value="0" />
+    <input type="number" id="nscalculateFan" name="calculateFan" value="0" />
     <br/>
 
     <!-- Winner Name 下拉式選單 -->
     <label for="winnerName">Winner Name(贏家):</label>
-    <select id="winnerName" name="winnerName" required>
+    <select id="nswinnerName" name="winnerName" required>
         <option th:each="playerName : ${playerNames}" th:value="${playerName}" th:text="${playerName}"></option>
     </select>
     <br/>

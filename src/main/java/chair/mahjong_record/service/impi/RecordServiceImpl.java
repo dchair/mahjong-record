@@ -10,8 +10,10 @@ import chair.mahjong_record.model.GameSettings;
 import chair.mahjong_record.model.Player;
 import chair.mahjong_record.service.RecordService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +37,11 @@ public class RecordServiceImpl  implements RecordService {
         String dealer=recordInfo.getDealerName();
         String winner=recordInfo.getWinnerName();
         String loser= recordInfo.getLoserName();
+        //萬一使用者誤填贏家和輸家同一個人
+        if(winner.equals(loser)){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"贏家和輸家不能是同一個人!");
+        }
+
         //處理莊家台數
         if(dealer.equals(winner) || dealer.equals(loser)){
             int extraFan=recordInfo.getDealerStreak()*2+1;
@@ -65,6 +72,7 @@ public class RecordServiceImpl  implements RecordService {
 
     @Override
     public void createDRecord(Integer settingId, CreateRecordRequest createRecordRequest, Integer saveId) {
+
         //開一個List去存放之後要存的資料表
         List<GameRecord> gameRecordList =new ArrayList<>();
         //從createRecordRequest裡面提取LIST

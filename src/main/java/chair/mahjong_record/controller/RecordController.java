@@ -1,21 +1,23 @@
 package chair.mahjong_record.controller;
 
+import chair.mahjong_record.Tracker.SetIdTracker;
 import chair.mahjong_record.dto.CreateRecordRequest;
 import chair.mahjong_record.dto.RecordInfo;
 import chair.mahjong_record.model.GameSettings;
 import chair.mahjong_record.model.Player;
 import chair.mahjong_record.service.PlayerService;
 import chair.mahjong_record.service.RecordService;
-import chair.mahjong_record.Tracker.SetIdTracker;
 import chair.mahjong_record.service.SettingService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -138,10 +140,6 @@ public class RecordController {
     @PostMapping("/save_non_self_drawn")
         public String saveNonSelfDrawn(@RequestParam Integer settingId,
                                                            @ModelAttribute("recordInfo") RecordInfo recordInfo){
-        System.out.println(recordInfo);
-        System.out.println(settingId);
-        System.out.println(settingId);
-
         //使用service來計算邏輯
         int nonSaveId = setIdTracker.getAndIncrementSetId(1);// 每次請求自增
         recordService.createNDRecord(settingId,recordInfo,nonSaveId);
