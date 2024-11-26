@@ -13,10 +13,10 @@
     </script>
 </head>
 <body>
-<h1>Game Record Form</h1>
+<h1>戰績紀錄表/Game Record Form</h1>
 
 <!-- 是否自摸選項 -->
-<label for="isSelfDrawn">Is Self-Drawn (是否自摸):</label>
+<label for="isSelfDrawn">是否自摸/Is Self-Drawn :</label>
 <select id="isSelfDrawn" name="isSelfDrawn" onchange="toggleForms()">
     <option value="no">No (無自摸)</option>
     <option value="yes">Yes (有自摸)</option>
@@ -26,74 +26,75 @@
 
 <!-- 無自摸的表單 -->
 <form id="nonSelfDrawnForm" action="/save_non_self_drawn" method="post" style="display: block;">
-    <h2>Non-Self-Drawn Form</h2>
+    <h2>沒有自摸的情況/Non-Self-Drawn Form</h2>
 
     <!-- 隱藏設定ID -->
     <input type="hidden" id="settingId1" name="settingId" th:value="${settingId}" />
-    <p>Setting ID: <span th:text="${settingId}"></span></p>
+    <p>設定Id/Setting ID: <span th:text="${settingId}"></span></p>
 
     <!-- Dealer Name 下拉式選單 -->
-    <label for="dealerName1">Dealer Name:</label>
+    <label for="dealerName1">莊家/Dealer Name:</label>
     <select id="dealerName1" name="dealerName" required>
         <option th:each="playerName : ${playerNames}" th:value="${playerName}" th:text="${playerName}"></option>
     </select>
     <br/>
 
     <!-- Dealer Streak 輸入框 -->
-    <label for="dealerStreak1">Dealer Streak(連莊):</label>
+    <label for="dealerStreak1">連莊/Dealer Streak:</label>
     <input type="number" id="dealerStreak1" name="dealerStreak" value="0" />
     <br/>
 
     <!-- Calculate Fan 輸入框 -->
-    <label for="calculateFan1">Calculate Fan(台數):</label>
+    <label for="calculateFan1">台數/Calculate Fan:</label>
     <input type="number" id="calculateFan1" name="calculateFan" value="0" />
     <br/>
 
     <!-- Winner Name 下拉式選單 -->
-    <label for="winnerName1">Winner Name(贏家):</label>
+    <label for="winnerName1">贏家/Winner Name:</label>
     <select id="winnerName1" name="winnerName" required>
         <option th:each="playerName : ${playerNames}" th:value="${playerName}" th:text="${playerName}"></option>
     </select>
     <br/>
 
-    <label for="loserName1">Loser Name(輸家):</label>
+    <label for="loserName1">輸家/Loser Name:</label>
     <select id="loserName1" name="loserName" required>
         <option th:each="playerName : ${playerNames}" th:value="${playerName}" th:text="${playerName}"></option>
     </select>
     <br/>
 
-    <button type="submit">Submit</button>
+    <button type="submit">提交/Submit</button>
+    <button type="button" onclick="location.href='/index'">返回首頁</button>
 </form>
 
 <!-- 自摸的表單 -->
 <form id="selfDrawnForm" action="/save_self_drawn" method="post" style="display: none;">
-    <h2>Self-Drawn Form</h2>
+    <h2>自摸的情況/Self-Drawn Form</h2>
 
     <!-- 隱藏設定ID -->
     <input type="hidden" id="settingId" name="settingId" th:value="${settingId}" />
-    <p>Setting ID: <span th:text="${settingId}"></span></p>
+    <p>設定Id/Setting ID: <span th:text="${settingId}"></span></p>
 
 
 
     <!-- Dealer Name 下拉式選單 -->
-    <label for="dealerName">Dealer Name:(莊家)</label>
+    <label for="dealerName">莊家/Dealer Name:</label>
     <select id="dealerName" name="dealerName" required>
         <option th:each="playerName : ${playerNames}" th:value="${playerName}" th:text="${playerName}"></option>
     </select>
 
     <br/>
     <!-- Dealer Streak 輸入框 -->
-    <label for="dealerStreak">Dealer Streak(連莊):</label>
+    <label for="dealerStreak">連莊/Dealer Streak:</label>
     <input type="number" id="dealerStreak" name="dealerStreak" value="0" />
     <br/>
 
     <!-- Calculate Fan 輸入框 -->
-    <label for="calculateFan">Calculate Fan(台數):</label>
+    <label for="calculateFan">台數/Calculate Fan:</label>
     <input type="number" id="calculateFan" name="calculateFan" value="0" />
     <br/>
 
     <!-- Winner Name 下拉式選單 -->
-    <label for="winnerName">Winner Name(贏家):</label>
+    <label for="winnerName">贏家/Winner Name:</label>
     <select id="winnerName" name="winnerName" required>
         <option th:each="playerName : ${playerNames}" th:value="${playerName}" th:text="${playerName}"></option>
     </select>
@@ -103,16 +104,18 @@
     <input type="hidden" th:each="playerName : ${playerNames}" th:name="playerNames" th:value="${playerName}" />
 
 
-    <button type="submit">Submit</button>
+    <button type="submit">提交/Submit</button>
+    <button type="button" onclick="location.href='/index'">返回首頁</button>
 </form>
 
+
 <!-- 玩家資料展示 -->
-<h2>Players Information</h2>
+<h2>玩家資訊/Players Information</h2>
 <table border="1">
     <thead>
     <tr>
-        <th>Player Name</th>
-        <th>Chips</th>
+        <th>玩家名稱/Player Name</th>
+        <th>籌碼/Chips</th>
     </tr>
     </thead>
     <tbody>

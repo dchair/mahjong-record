@@ -5,13 +5,13 @@
     <title>Game Settings</title>
 </head>
 <body>
-<h1>Game Settings</h1>
+<h1>遊戲設定/Game Settings</h1>
 <div>
-    <p><strong>Setting ID:</strong> <span th:text="${gameSettings.settingId}"></span></p>
-    <p><strong>Base Fan Price:</strong> <span th:text="${gameSettings.baseFanPrice}"></span></p>
-    <p><strong>Per Fan Price:</strong> <span th:text="${gameSettings.perFanPrice}"></span></p>
-    <p><strong>Created Date:</strong> <span th:text="${#dates.format(gameSettings.createdDate, 'yyyy-MM-dd HH:mm:ss')}"></span></p>
-    <p><strong>Last Modified Date:</strong> <span th:text="${#dates.format(gameSettings.lastModifiedDate, 'yyyy-MM-dd HH:mm:ss')}"></span></p>
+    <p><strong>設定ID/Setting ID:</strong> <span th:text="${gameSettings.settingId}"></span></p>
+    <p><strong>基本台價格/Base Fan Price:</strong> <span th:text="${gameSettings.baseFanPrice}"></span></p>
+    <p><strong>每台價格/Per Fan Price:</strong> <span th:text="${gameSettings.perFanPrice}"></span></p>
+    <p><strong>創建時間/Created Date:</strong> <span th:text="${#dates.format(gameSettings.createdDate, 'yyyy-MM-dd HH:mm:ss')}"></span></p>
+    <p><strong>最後修改時間/Last Modified Date:</strong> <span th:text="${#dates.format(gameSettings.lastModifiedDate, 'yyyy-MM-dd HH:mm:ss')}"></span></p>
 </div>
 </body>
 </html>

@@ -88,7 +88,7 @@
 <!--<input type="number" id="settingId" name="settingId" required>-->
 
 <select id="settingIdDropdown" name="settingId" onchange="updateHiddenSettingId()" required>
-    <option value="">-- Select a Setting ID --</option>
+    <option value="">-- 選擇玩家/Select a Setting ID --</option>
     <option th:each="gameSettings : ${gameSettingsList}"
             th:value="${gameSettings.settingId}"
             th:text="${gameSettings.settingId}">
@@ -96,27 +96,27 @@
 </select>
 <br>
 <!-- 輸入玩家名字的欄位 -->
-<label for="playerName1">Player 1:</label>
+<label for="playerName1">玩家/Player 1:</label>
 <input type="text" id="playerName1" name="playerName1" required>
 
 <br>
 
-<label for="playerName2">Player 2:</label>
+<label for="playerName2">玩家/Player 2:</label>
 <input type="text" id="playerName2" name="playerName2" required>
 
 <br>
 
-<label for="playerName3">Player 3:</label>
+<label for="playerName3">玩家/Player 3:</label>
 <input type="text" id="playerName3" name="playerName3" required>
 
 <br>
 
-<label for="playerName4">Player 4:</label>
+<label for="playerName4">玩家/Player 4:</label>
 <input type="text" id="playerName4" name="playerName4" required>
 
 <br>
 
-<button type="button" onclick="redirectToRecord()">Select</button>
+<button type="button" onclick="redirectToRecord()">選擇/Select</button>
 <button type="button" onclick="location.href='/index'">返回首頁</button>
 
 <div  th:each="gameSettings : ${gameSettingsList}" style="display:none;">

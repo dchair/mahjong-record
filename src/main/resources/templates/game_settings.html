@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Settings Request</title>
+    <title>遊戲設定/Game Settings Request</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -34,21 +34,21 @@
 </head>
 <body>
 
-<h1>Game Settings Request</h1>
+<h1>遊戲設定/Game Settings Request</h1>
 
 <form action="/add_game_setting" method="post" th:object="${gameSettingsRequest}">
 
     <!-- Base Fan Price -->
-    <label for="baseFanPrice">Base Fan Price</label>
+    <label for="baseFanPrice">基本台價格/Base Fan Price</label>
     <input type="number" id="baseFanPrice" th:field="*{baseFanPrice}" required>
 
     <!-- Per Fan Price -->
-    <label for="perFanPrice">Per Fan Price</label>
+    <label for="perFanPrice">每台價格/Per Fan Price</label>
     <input type="number" id="perFanPrice" th:field="*{perFanPrice}" required>
 
 
     <!-- Submit Button -->
-    <button type="submit">Save Settings</button>
+    <button type="submit">儲存設定/Save Settings</button>
     <button type="button" onclick="location.href='/index'">返回首頁</button>
 </form>
 
