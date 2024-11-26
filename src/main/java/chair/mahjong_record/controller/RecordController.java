@@ -77,45 +77,15 @@ public class RecordController {
         if (settingId == null || playerNames == null) {
             throw new IllegalStateException("Session 資料遺失，請重新選擇設定");
         }
+        // 確保資料加入 Model
+        model.addAttribute("settingId", settingId);
+        model.addAttribute("playerNames", playerNames);
+
 
         return "game_records";
     }
     //D
     //執行紀錄
-    @PostMapping("record/{settingId}/game_record/save_non_self_drawn")
-    public String record_game_record_save_non_self_drawn(@PathVariable Integer settingId,
-                                                         @ModelAttribute("recordInfo") RecordInfo recordInfo) {
-        //使用service來計算邏輯
-        int nonSaveId = setIdTracker.getAndIncrementSetId(1);// 每次請求自增
-        recordService.createNDRecord(settingId,recordInfo,nonSaveId);
-        return "redirect:/record/{settingId}/game_record";
-
-    }
-
-
-
-
-    @GetMapping("/game_setting/{settingId}/record")
-    public String game_record(@PathVariable Integer settingId,
-                              @RequestParam String playerName1,
-                              @RequestParam String playerName2,
-                              @RequestParam String playerName3,
-                              @RequestParam String playerName4,
-
-                              Model model){
-        System.out.println(settingId);
-        GameSettings gameSettings = settingService.getSettingById(settingId);
-//假設這個setting不存在
-        if(gameSettings == null){
-            return "game_settings";
-        }
-
-        List<String> playerNames = new ArrayList<>(Arrays.asList(playerName1,playerName2,playerName3,playerName4));
-        model.addAttribute("playerNames", playerNames);
-
-        return "game_record";
-    }
-
 
     @PostMapping("/save_self_drawn")
     public String saveSelfDrawn( @RequestParam Integer settingId,
@@ -153,7 +123,7 @@ public class RecordController {
         int saveId = setIdTracker.getAndIncrementSetId(1);// 每次請求自增
         System.out.println(saveId);
         recordService.createDRecord(settingId,createRecordRequest,saveId);
-        return "redirect:/game_settings";
+        return "redirect:/record/game_record";
     }
 
     @PostMapping("/save_non_self_drawn")
@@ -166,7 +136,7 @@ public class RecordController {
         //使用service來計算邏輯
         int nonSaveId = setIdTracker.getAndIncrementSetId(1);// 每次請求自增
         recordService.createNDRecord(settingId,recordInfo,nonSaveId);
-        return "redirect:/game_settings";
+        return "redirect:/record/game_record";
 
     }
 
