@@ -29,35 +29,35 @@
     <h2>Non-Self-Drawn Form</h2>
 
     <!-- 隱藏設定ID -->
-    <input type="hidden" id="ndsettingId" name="settingId" th:value="${settingId}" />
+    <input type="hidden" id="settingId1" name="settingId" th:value="${settingId}" />
     <p>Setting ID: <span th:text="${settingId}"></span></p>
 
     <!-- Dealer Name 下拉式選單 -->
-    <label for="dealerName">Dealer Name:</label>
-    <select id="nsdealerName" name="dealerName" required>
+    <label for="dealerName1">Dealer Name:</label>
+    <select id="dealerName1" name="dealerName" required>
         <option th:each="playerName : ${playerNames}" th:value="${playerName}" th:text="${playerName}"></option>
     </select>
     <br/>
 
     <!-- Dealer Streak 輸入框 -->
-    <label for="dealerStreak">Dealer Streak(連莊):</label>
-    <input type="number" id="nsdealerStreak" name="dealerStreak" value="0" />
+    <label for="dealerStreak1">Dealer Streak(連莊):</label>
+    <input type="number" id="dealerStreak1" name="dealerStreak" value="0" />
     <br/>
 
     <!-- Calculate Fan 輸入框 -->
-    <label for="calculateFan">Calculate Fan(台數):</label>
-    <input type="number" id="nscalculateFan" name="calculateFan" value="0" />
+    <label for="calculateFan1">Calculate Fan(台數):</label>
+    <input type="number" id="calculateFan1" name="calculateFan" value="0" />
     <br/>
 
     <!-- Winner Name 下拉式選單 -->
-    <label for="winnerName">Winner Name(贏家):</label>
-    <select id="nswinnerName" name="winnerName" required>
+    <label for="winnerName1">Winner Name(贏家):</label>
+    <select id="winnerName1" name="winnerName" required>
         <option th:each="playerName : ${playerNames}" th:value="${playerName}" th:text="${playerName}"></option>
     </select>
     <br/>
 
-    <label for="loserName">Loser Name(輸家):</label>
-    <select id="loserName" name="loserName" required>
+    <label for="loserName1">Loser Name(輸家):</label>
+    <select id="loserName1" name="loserName" required>
         <option th:each="playerName : ${playerNames}" th:value="${playerName}" th:text="${playerName}"></option>
     </select>
     <br/>
