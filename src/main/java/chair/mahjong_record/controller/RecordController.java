@@ -80,7 +80,16 @@ public class RecordController {
         // 確保資料加入 Model
         model.addAttribute("settingId", settingId);
         model.addAttribute("playerNames", playerNames);
-
+        //增加遊戲中的玩家資料
+        List<Player> playerInfo=new ArrayList<>();
+        for(String playerName : playerNames) {
+            Player player = playerService.getPlayerByName(playerName);
+           if(player != null) {
+               playerInfo.add(player);
+           }
+        }
+        // 將玩家資訊加入到 Model
+        model.addAttribute("playerInfo", playerInfo);
 
         return "game_records";
     }

@@ -106,5 +106,21 @@
     <button type="submit">Submit</button>
 </form>
 
+<!-- 玩家資料展示 -->
+<h2>Players Information</h2>
+<table border="1">
+    <thead>
+    <tr>
+        <th>Player Name</th>
+        <th>Chips</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="player : ${playerInfo}">
+        <td th:text="${player.playerName}"></td>
+        <td th:text="${player.chips}"></td>
+    </tr>
+    </tbody>
+
 </body>
 </html>
