@@ -1,27 +1,46 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Update Player</title>
+    <title>player</title>
     <style>
-    table {
-        width: 100%;
-        border-collapse: collapse;
-    }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
 
-    th, td {
-        padding: 8px;
-        text-align: left;
-        border: 1px solid #ddd;
-    }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
 
-    th {
-        background-color: #f4f4f4;
-    }
-</style>
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
 </head>
 <body>
-<h1>Player List</h1>
+
+<div class="main-w3layouts wrapper">
+    <h1>新增玩家頁面</h1>
+    <div class="main-agileinfo">
+        <div class="agileits-top">
+
+            <form id="add_player"  method="post" th:action="@{/player/add_player}" th:object="${playerRequest}">
+                <input  type="text" th:field="*{playerName}"  placeholder="遊玩暱稱" required="">
+                <input  type="number" th:field="*{chips}"  placeholder="身上籌碼" required="">
+
+                <div class="clear"> </div>
+                <input type="submit" value="新增">
+                <button type="button" onclick="location.href='/index'">返回首頁</button>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<h1>玩家清單</h1>
 
 <table>
     <thead>
@@ -51,6 +70,5 @@
     </tr>
     </tbody>
 </table>
-<button type="button" onclick="location.href='/index'">返回首頁</button>
 </body>
 </html>

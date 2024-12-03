@@ -1,16 +1,20 @@
 package chair.mahjong_record.controller;
 
+import chair.mahjong_record.dto.PlayerQueryParams;
 import chair.mahjong_record.dto.PlayerRequest;
 import chair.mahjong_record.model.Player;
 import chair.mahjong_record.service.PlayerService;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
+@Validated
 @Controller
 public class PlayerController {
 
@@ -24,11 +28,46 @@ public class PlayerController {
         model.addAttribute("playerRequest",playerRequest);
         return "add_player";
     }
-    @GetMapping("player/player_data")
-    public String getPlayers(Model model){
-        List<Player> players = playerService.getPlayers();  // 获取所有玩家
+//    @GetMapping("player/player_data")
+//    public String getPlayers(Model model,
+//                             //排序Sorting
+//                             @RequestParam(defaultValue = "created_date")String orderBy,
+//                             @RequestParam(defaultValue = "asc")String sort,
+//                             //分頁Pagination
+//                             @RequestParam(defaultValue = "10")@Max(1000) @Min(0)Integer limit,
+//                             @RequestParam(defaultValue = "0") @Min(0)Integer offset){
+//        PlayerQueryParams playerQueryParams = new PlayerQueryParams();
+//        playerQueryParams.setOrderBy(orderBy);
+//        playerQueryParams.setSort(sort);
+//        playerQueryParams.setLimit(limit);
+//        playerQueryParams.setOffset(offset);
+//
+//        List<Player> players = playerService.getPlayers(playerQueryParams);  // 获取所有玩家
+//        model.addAttribute("players", players);  // 将玩家数据传递给视图
+//        return "player_data";
+//    }
+    @GetMapping("/player")
+    public String player(Model model,
+                     //排序Sorting
+                     @RequestParam(defaultValue = "created_date")String orderBy,
+                     @RequestParam(defaultValue = "asc")String sort,
+                     //分頁Pagination
+                     @RequestParam(defaultValue = "5")@Max(1000) @Min(0)Integer limit,
+                     @RequestParam(defaultValue = "0") @Min(0)Integer offset){
+
+        PlayerQueryParams playerQueryParams = new PlayerQueryParams();
+        playerQueryParams.setOrderBy(orderBy);
+        playerQueryParams.setSort(sort);
+        playerQueryParams.setLimit(limit);
+        playerQueryParams.setOffset(offset);
+        model.addAttribute("playerQueryParams",playerQueryParams);
+
+        List<Player> players = playerService.getPlayers(playerQueryParams);  // 获取所有玩家
         model.addAttribute("players", players);  // 将玩家数据传递给视图
-        return "player_data";
+
+        PlayerRequest playerRequest =new PlayerRequest();
+        model.addAttribute("playerRequest",playerRequest);
+        return "player";
     }
 
     @PostMapping("/player/add_player")
@@ -54,11 +93,4 @@ public class PlayerController {
         return "redirect:/player/delete_player";
     }
 
-    @GetMapping("/player/delete_player")
-    public String delete_player(Model model){
-        //顯示資料庫目前的玩家狀況
-        List<Player> players = playerService.getPlayers();
-        model.addAttribute("players", players);
-        return "delete_player";
-    }
 }

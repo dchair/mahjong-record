@@ -1,6 +1,7 @@
 package chair.mahjong_record.service.impi;
 
 import chair.mahjong_record.dao.PlayerDao;
+import chair.mahjong_record.dto.PlayerQueryParams;
 import chair.mahjong_record.dto.PlayerRequest;
 import chair.mahjong_record.model.Player;
 import chair.mahjong_record.service.PlayerService;
@@ -46,8 +47,8 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
-    public List<Player> getPlayers() {
-        return playerDao.getPlayers();
+    public List<Player> getPlayers(PlayerQueryParams playerQueryParams) {
+        return playerDao.getPlayers(playerQueryParams);
     }
 
     @Override

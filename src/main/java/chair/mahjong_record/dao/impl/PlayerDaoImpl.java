@@ -1,6 +1,7 @@
 package chair.mahjong_record.dao.impl;
 
 import chair.mahjong_record.dao.PlayerDao;
+import chair.mahjong_record.dto.PlayerQueryParams;
 import chair.mahjong_record.dto.PlayerRequest;
 import chair.mahjong_record.model.Player;
 import chair.mahjong_record.rowMapper.PlayerRowMapper;
@@ -77,10 +78,18 @@ public class PlayerDaoImpl implements PlayerDao {
     }
 
     @Override
-    public List<Player> getPlayers() {
+    public List<Player> getPlayers(PlayerQueryParams playerQueryParams) {
         String sql="SELECT player_id,player_name,chips,created_date,last_modified_date " +
-                "FROM player";
-        return namedParameterJdbcTemplate.query(sql, new PlayerRowMapper());
+                "FROM player WHERE 1=1";
+        sql=sql+" ORDER BY "+ playerQueryParams.getOrderBy() +" "+playerQueryParams.getSort();
+
+        Map<String ,Object> map = new HashMap<>();
+        map.put("limit",playerQueryParams.getLimit());
+        map.put("offset",playerQueryParams.getOffset());
+        sql=sql+" LIMIT :limit OFFSET :offset";
+
+        List<Player> players =namedParameterJdbcTemplate.query(sql,map, new PlayerRowMapper());
+        return players;
     }
 
     @Override
