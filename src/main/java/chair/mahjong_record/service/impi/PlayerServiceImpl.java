@@ -60,4 +60,9 @@ public class PlayerServiceImpl implements PlayerService {
     public Player getPlayerByName(String playerName) {
         return playerDao.getPlayerByName(playerName);
     }
+
+    @Override
+    public Integer getTotalPlayerCount() {
+        return playerDao.getTotalPlayerCount();
+    }
 }

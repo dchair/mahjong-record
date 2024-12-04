@@ -10,6 +10,8 @@ public class PlayerQueryParams {
     private Integer offset;
 
 
+
+
     public String getPlayerName() {
         return playerName;
     }

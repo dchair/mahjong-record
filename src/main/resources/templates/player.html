@@ -40,35 +40,114 @@
     </div>
 </div>
 
-<h1>玩家清單</h1>
+<div class="main-w3layouts wrapper">
 
-<table>
-    <thead>
-    <tr>
-        <th>玩家id/Player ID</th>
-        <th>玩家名稱/Player Name</th>
-        <th>籌碼/Chips</th>
-        <th>創建時間/Created Date</th>
-        <th>最後修改時間/Last Modified Date</th>
-        <th>刪除/Delete</th>
-    </tr>
-    </thead>
-    <tbody>
-    <!-- 使用 Thymeleaf 迴圈渲染資料 -->
-    <tr th:each="player : ${players}">
-        <td th:text="${player.playerId}"></td>
-        <td th:text="${player.playerName}"></td>
-        <td th:text="${player.chips}"></td>
-        <td th:text="${#dates.format(player.createdDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
-        <td th:text="${#dates.format(player.lastModifiedDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
-        <td>
-            <form th:action="@{/delete_player/{playerId}(playerId=${player.playerId})}" method="post"
-                  onsubmit="return confirm('確定要刪除此玩家嗎？');">
-                <button type="submit">刪除</button>
-            </form>
-        </td>
-    </tr>
-    </tbody>
-</table>
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <!-- 左側：玩家清單標題 -->
+        <h1>玩家清單</h1>
+
+        <!-- 右側：排序功能 -->
+        <div>
+            <!-- 排序依據 -->
+            <label for="orderBy">排序依據:</label>
+            <select id="orderBy" onchange="updateSorting()">
+                <option value="player_id" th:selected="${playerQueryParams.orderBy == 'player_id'}">玩家ID</option>
+                <option value="player_name" th:selected="${playerQueryParams.orderBy == 'player_name'}">玩家名稱</option>
+                <option value="chips" th:selected="${playerQueryParams.orderBy == 'chips'}">籌碼</option>
+                <option value="created_date" th:selected="${playerQueryParams.orderBy == 'created_date'}">創建時間</option>
+                <option value="last_modified_date" th:selected="${playerQueryParams.orderBy == 'last_modified_date'}">最後修改時間</option>
+            </select>
+
+            <!-- 升序/降序切換按鈕 -->
+            <button id="sortButton" onclick="toggleSortOrder()">升序</button>
+        </div>
+    </div>
+
+    <table>
+        <thead>
+        <tr>
+            <th>玩家ID</th>
+            <th>玩家名稱</th>
+            <th>籌碼</th>
+            <th>創建時間</th>
+            <th>最後修改時間</th>
+            <th>刪除</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- 使用 Thymeleaf 迴圈渲染資料 -->
+        <tr th:each="player : ${players}">
+            <td th:text="${player.playerId}"></td>
+            <td th:text="${player.playerName}"></td>
+            <td th:text="${player.chips}"></td>
+            <td th:text="${#dates.format(player.createdDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+            <td th:text="${#dates.format(player.lastModifiedDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+            <td>
+                <form th:action="@{/delete_player/{playerId}(playerId=${player.playerId})}" method="post"
+                      onsubmit="return confirm('確定要刪除此玩家嗎？');">
+                    <button type="submit">刪除</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    // 獲取當前排序參數
+    let currentOrderBy = "[[${playerQueryParams.orderBy}]]";
+    let currentSort = "[[${playerQueryParams.sort}]]";
+
+    // 更新排序參數
+    function updateSorting() {
+        const orderBy = document.getElementById('orderBy').value;
+        const newUrl = `/player?orderBy=${orderBy}&sort=${currentSort}&limit=[[${playerQueryParams.limit}]]&offset=[[${playerQueryParams.offset}]]`;
+        location.href = newUrl;
+    }
+
+    // 切換排序方向
+    function toggleSortOrder() {
+        const sortButton = document.getElementById('sortButton');
+        currentSort = currentSort === 'asc' ? 'desc' : 'asc';
+        sortButton.textContent = currentSort === 'asc' ? '升序' : '降序';
+
+        const newUrl = `/player?orderBy=${currentOrderBy}&sort=${currentSort}&limit=[[${playerQueryParams.limit}]]&offset=[[${playerQueryParams.offset}]]`;
+        location.href = newUrl;
+    }
+</script>
+
+<div style="position: relative; min-height: 50px;">
+    <!-- 分頁導航 -->
+    <nav style="text-align: center; margin-top: 20px;">
+        <ul style="display: inline-flex; list-style: none; padding: 0; margin: 0;">
+            <!-- 上一頁 -->
+            <li style="margin-right: 10px;" th:if="${currentPage > 0}">
+                <a th:href="@{/player(orderBy=${playerQueryParams.orderBy}, sort=${playerQueryParams.sort}, limit=${playerQueryParams.limit}, offset=${(currentPage - 1) * playerQueryParams.limit})}"
+                   style="text-decoration: none; padding: 5px 10px; border: 1px solid #ddd; background-color: #f9f9f9; color: #333; border-radius: 4px;">上一頁</a>
+            </li>
+
+            <!-- 頁碼 -->
+            <li th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+                th:classappend="${currentPage == i} ? 'active'"
+                style="margin: 0 5px;">
+                <a th:href="@{/player(orderBy=${playerQueryParams.orderBy}, sort=${playerQueryParams.sort}, limit=${playerQueryParams.limit}, offset=${i * playerQueryParams.limit})}"
+                   th:text="${i + 1}"
+                   style="text-decoration: none; padding: 5px 10px; border: 1px solid #ddd; background-color: #f9f9f9; color: #333; border-radius: 4px;"></a>
+            </li>
+
+            <!-- 下一頁 -->
+            <li style="margin-left: 10px;" th:if="${currentPage < totalPages - 1}">
+                <a th:href="@{/player(orderBy=${playerQueryParams.orderBy}, sort=${playerQueryParams.sort}, limit=${playerQueryParams.limit}, offset=${(currentPage + 1) * playerQueryParams.limit})}"
+                   style="text-decoration: none; padding: 5px 10px; border: 1px solid #ddd; background-color: #f9f9f9; color: #333; border-radius: 4px;">下一頁</a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- 總頁數 -->
+    <p style="text-align: center; font-size: 14px; color: #666; margin: 10px 0;">
+        總頁數: <span th:text="${totalPages}"></span>
+    </p>
+</div>
+
 </body>
 </html>

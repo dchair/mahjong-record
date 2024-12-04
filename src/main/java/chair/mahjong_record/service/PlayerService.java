@@ -15,4 +15,5 @@ public interface PlayerService {
     void deletePlayerById(Integer playerId);
     Boolean isPlayerExists(String playerName);
     Player getPlayerByName(String playerName);
+    Integer  getTotalPlayerCount();
 }

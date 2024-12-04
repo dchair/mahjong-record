@@ -117,6 +117,12 @@ public class PlayerDaoImpl implements PlayerDao {
     }
 
     @Override
+    public Integer getTotalPlayerCount() {
+        String sql = "SELECT COUNT(*) FROM player";
+        return namedParameterJdbcTemplate.queryForObject(sql, new HashMap<>(), Integer.class);
+    }
+
+    @Override
     public Player checkPlayerByName(String playerName) {
         String sql ="SELECT player_id,player_name,chips,created_date,last_modified_date FROM player" +
                 " WHERE player_name = :playerName";
@@ -130,5 +136,7 @@ public class PlayerDaoImpl implements PlayerDao {
         }catch(Exception e){
             return null;
         }
+
+
     }
 }
