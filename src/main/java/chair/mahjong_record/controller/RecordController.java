@@ -4,7 +4,7 @@ import chair.mahjong_record.Tracker.SetIdTracker;
 import chair.mahjong_record.dto.CreateRecordRequest;
 import chair.mahjong_record.dto.PlayerQueryParams;
 import chair.mahjong_record.dto.RecordInfo;
-import chair.mahjong_record.model.GameSettings;
+import chair.mahjong_record.model.GameSetting;
 import chair.mahjong_record.model.Player;
 import chair.mahjong_record.service.PlayerService;
 import chair.mahjong_record.service.RecordService;
@@ -33,18 +33,18 @@ public class RecordController {
     PlayerService playerService;
 
     //A
-    @GetMapping("/record")
-    public String record_settings(Model model, PlayerQueryParams playerQueryParams) {
-        //將資料庫的setting找出，並用下拉式選單讓玩家做選擇
-        List<GameSettings> gameSettingsList = settingService.getSettings();
-        //將資料庫的player找出，並用下拉式選單選玩家
-        List<Player> players = playerService.getPlayers(playerQueryParams);
-        //備資料給前端準備
-        model.addAttribute("gameSettingsList",gameSettingsList);
-        model.addAttribute("players",players);
-
-        return "record_settings";
-    }
+//    @GetMapping("/record")
+//    public String record_settings(Model model, PlayerQueryParams playerQueryParams) {
+//        //將資料庫的setting找出，並用下拉式選單讓玩家做選擇
+//        List<GameSetting> gameSettingList = settingService.getSettings();
+//        //將資料庫的player找出，並用下拉式選單選玩家
+//        List<Player> players = playerService.getPlayers(playerQueryParams);
+//        //備資料給前端準備
+//        model.addAttribute("gameSettingsList", gameSettingList);
+//        model.addAttribute("players",players);
+//
+//        return "record_settings";
+//    }
 
     //B
     @PostMapping("/record")

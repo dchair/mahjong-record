@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Game Settings</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .controls select, .controls button {
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center; /* 將分頁按鈕置中 */
+            list-style: none;
+            padding: 0;
+            margin: 20px auto;
+            text-align: center;
+        }
+
+        .pagination li {
+            margin: 0 5px;
+        }
+
+        .pagination a {
+            text-decoration: none;
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+            color: #333;
+            border-radius: 4px;
+        }
+
+        .active a {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+<h1>新增番數價格設定</h1>
+
+<div class="form-container">
+    <form action="/add_game_setting" method="post" th:object="${gameSettingsRequest}">
+        <!-- Base Fan Price -->
+        <div class="form-group">
+            <label for="baseFanPrice">基本番數價格 :</label>
+            <input type="number" id="baseFanPrice" th:field="*{baseFanPrice}" placeholder="輸入基本台價格..." required>
+        </div>
+
+        <!-- Per Fan Price -->
+        <div class="form-group">
+            <label for="perFanPrice">每番價格 :</label>
+            <input type="number" id="perFanPrice" th:field="*{perFanPrice}" placeholder="輸入每台價格..." required>
+        </div>
+
+        <!-- Actions -->
+        <div class="form-actions">
+            <button type="submit">儲存設定</button>
+            <button type="button" class="secondary" onclick="location.href='/index'">返回首頁</button>
+        </div>
+    </form>
+</div>
+</body>
+
+
+<div class="main-w3layouts wrapper">
+    <div class="controls">
+        <h1>番數價格設定清單</h1>
+
+        <!-- 排序功能 -->
+        <div>
+            <!-- 排序依據 -->
+            <label for="orderBy">排序依據:</label>
+            <select id="orderBy" onchange="updateSorting()">
+                <option value="setting_id" th:selected="${gameSettingQueryParams.orderBy == 'setting_id'}">設定 ID</option>
+                <option value="base_fan_price" th:selected="${gameSettingQueryParams.orderBy == 'base_fan_price'}">基礎番數價格</option>
+                <option value="per_fan_price" th:selected="${gameSettingQueryParams.orderBy == 'per_fan_price'}">每番價格</option>
+                <option value="created_date" th:selected="${gameSettingQueryParams.orderBy == 'created_date'}">創建時間</option>
+                <option value="last_modified_date" th:selected="${gameSettingQueryParams.orderBy == 'last_modified_date'}">最後修改時間</option>
+            </select>
+
+            <!-- 升序/降序切換按鈕 -->
+            <button id="sortButton" onclick="toggleSortOrder()">升序</button>
+        </div>
+    </div>
+
+    <table>
+        <thead>
+        <tr>
+            <th>設定 ID</th>
+            <th>基礎番數價格</th>
+            <th>每番價格</th>
+            <th>創建時間</th>
+            <th>最後修改時間</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- 使用 Thymeleaf 迴圈渲染資料 -->
+        <tr th:each="setting : ${gameSettingList}">
+            <td th:text="${setting.settingId}"></td>
+            <td th:text="${setting.baseFanPrice}"></td>
+            <td th:text="${setting.perFanPrice}"></td>
+            <td th:text="${#dates.format(setting.createdDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+            <td th:text="${#dates.format(setting.lastModifiedDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- 分頁導航 -->
+    <ul class="pagination">
+        <li th:if="${currentPage > 0}">
+            <a th:href="@{/gameSetting(orderBy=${gameSettingQueryParams.orderBy}, sort=${gameSettingQueryParams.sort}, limit=${gameSettingQueryParams.limit}, offset=${(currentPage - 1) * gameSettingQueryParams.limit})}">
+                上一頁
+            </a>
+        </li>
+
+        <li th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+            th:classappend="${currentPage == i} ? 'active'">
+            <a th:href="@{/gameSetting(orderBy=${gameSettingQueryParams.orderBy}, sort=${gameSettingQueryParams.sort}, limit=${gameSettingQueryParams.limit}, offset=${i * gameSettingQueryParams.limit})}"
+               th:text="${i + 1}"></a>
+        </li>
+
+        <li th:if="${currentPage < totalPages - 1}">
+            <a th:href="@{/gameSetting(orderBy=${gameSettingQueryParams.orderBy}, sort=${gameSettingQueryParams.sort}, limit=${gameSettingQueryParams.limit}, offset=${(currentPage + 1) * gameSettingQueryParams.limit})}">
+                下一頁
+            </a>
+        </li>
+    </ul>
+
+    <p style="text-align: center; color: #666;">總頁數: <span th:text="${totalPages}"></span></p>
+</div>
+
+<script>
+    let currentOrderBy = "[[${gameSettingQueryParams.orderBy}]]";
+    let currentSort = "[[${gameSettingQueryParams.sort}]]";
+
+    function updateSorting() {
+        const orderBy = document.getElementById('orderBy').value;
+        location.href = `/gameSetting?orderBy=${orderBy}&sort=${currentSort}&limit=[[${gameSettingQueryParams.limit}]]&offset=[[${gameSettingQueryParams.offset}]]`;
+    }
+
+    function toggleSortOrder() {
+        const sortButton = document.getElementById('sortButton');
+        currentSort = currentSort === 'asc' ? 'desc' : 'asc';
+        sortButton.textContent = currentSort === 'asc' ? '升序' : '降序';
+        location.href = `/gameSetting?orderBy=${currentOrderBy}&sort=${currentSort}&limit=[[${gameSettingQueryParams.limit}]]&offset=[[${gameSettingQueryParams.offset}]]`;
+    }
+</script>
+
+</body>
+</html>

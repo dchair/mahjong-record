@@ -116,14 +116,14 @@
     }
 </script>
 
-<div style="position: relative; min-height: 50px;">
+<div style="position: relative; min-height: 50px; text-align: center;">
     <!-- 分頁導航 -->
-    <nav style="text-align: center; margin-top: 20px;">
-        <ul style="display: inline-flex; list-style: none; padding: 0; margin: 0;">
+    <nav style="margin-top: 20px;">
+        <ul style="display: inline-flex; list-style: none; padding: 0; margin: 0 auto;">
             <!-- 上一頁 -->
-            <li style="margin-right: 10px;" th:if="${currentPage > 0}">
+            <li th:if="${currentPage > 0}" style="margin-right: 10px;">
                 <a th:href="@{/player(orderBy=${playerQueryParams.orderBy}, sort=${playerQueryParams.sort}, limit=${playerQueryParams.limit}, offset=${(currentPage - 1) * playerQueryParams.limit})}"
-                   style="text-decoration: none; padding: 5px 10px; border: 1px solid #ddd; background-color: #f9f9f9; color: #333; border-radius: 4px;">上一頁</a>
+                   style="text-decoration: none; padding: 10px 15px; border: 1px solid #ddd; background-color: #f9f9f9; color: #333; border-radius: 4px; display: block;">上一頁</a>
             </li>
 
             <!-- 頁碼 -->
@@ -132,19 +132,19 @@
                 style="margin: 0 5px;">
                 <a th:href="@{/player(orderBy=${playerQueryParams.orderBy}, sort=${playerQueryParams.sort}, limit=${playerQueryParams.limit}, offset=${i * playerQueryParams.limit})}"
                    th:text="${i + 1}"
-                   style="text-decoration: none; padding: 5px 10px; border: 1px solid #ddd; background-color: #f9f9f9; color: #333; border-radius: 4px;"></a>
+                   style="text-decoration: none; padding: 10px 15px; border: 1px solid #ddd; background-color: #f9f9f9; color: #333; border-radius: 4px; display: block;"></a>
             </li>
 
             <!-- 下一頁 -->
-            <li style="margin-left: 10px;" th:if="${currentPage < totalPages - 1}">
+            <li th:if="${currentPage < totalPages - 1}" style="margin-left: 10px;">
                 <a th:href="@{/player(orderBy=${playerQueryParams.orderBy}, sort=${playerQueryParams.sort}, limit=${playerQueryParams.limit}, offset=${(currentPage + 1) * playerQueryParams.limit})}"
-                   style="text-decoration: none; padding: 5px 10px; border: 1px solid #ddd; background-color: #f9f9f9; color: #333; border-radius: 4px;">下一頁</a>
+                   style="text-decoration: none; padding: 10px 15px; border: 1px solid #ddd; background-color: #f9f9f9; color: #333; border-radius: 4px; display: block;">下一頁</a>
             </li>
         </ul>
     </nav>
 
     <!-- 總頁數 -->
-    <p style="text-align: center; font-size: 14px; color: #666; margin: 10px 0;">
+    <p style="font-size: 14px; color: #666; margin: 10px 0;">
         總頁數: <span th:text="${totalPages}"></span>
     </p>
 </div>

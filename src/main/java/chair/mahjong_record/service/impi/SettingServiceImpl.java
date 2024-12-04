@@ -1,8 +1,9 @@
 package chair.mahjong_record.service.impi;
 
 import chair.mahjong_record.dao.SettingDao;
-import chair.mahjong_record.dto.GameSettingsRequest;
-import chair.mahjong_record.model.GameSettings;
+import chair.mahjong_record.dto.GameSettingQueryParams;
+import chair.mahjong_record.dto.GameSettingRequest;
+import chair.mahjong_record.model.GameSetting;
 import chair.mahjong_record.service.SettingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -16,22 +17,32 @@ public class SettingServiceImpl implements SettingService {
     private SettingDao settingDao;
 
     @Override
-    public Integer createSetting(GameSettingsRequest gameSettingsRequest) {
-        return settingDao.createSetting(gameSettingsRequest);
+    public Integer createSetting(GameSettingRequest gameSettingRequest) {
+        return settingDao.createSetting(gameSettingRequest);
     }
 
     @Override
-    public GameSettings getSettingById(Integer settingId) {
+    public GameSetting getSettingById(Integer settingId) {
         return settingDao.getSettingById(settingId);
     }
 
     @Override
-    public List<GameSettings> getSettings() {
-        return settingDao.getSettings();
+    public List<GameSetting> getSettings(GameSettingQueryParams gameSettingQueryParams) {
+        return settingDao.getSettings(gameSettingQueryParams);
     }
 
     @Override
     public Boolean isSettingExists(Integer settingId) {
         return settingDao.isSettingExists(settingId) !=null;
+    }
+
+    @Override
+    public Integer getTotalSettingCount() {
+        return settingDao.getTotalSettingCount();
+    }
+
+    @Override
+    public void deleteSettingById(Integer settingId) {
+        settingDao.deleteSettingById(settingId);
     }
 }

@@ -2,7 +2,7 @@ package chair.mahjong_record.model;
 
 import java.util.Date;
 
-public class GameSettings {
+public class GameSetting {
     private Integer settingId;
     private Integer baseFanPrice;
     private Integer perFanPrice;

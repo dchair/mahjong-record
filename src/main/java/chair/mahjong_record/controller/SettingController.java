@@ -1,15 +1,17 @@
 package chair.mahjong_record.controller;
 
-import chair.mahjong_record.dto.GameSettingsRequest;
-import chair.mahjong_record.model.GameSettings;
+import chair.mahjong_record.dto.GameSettingQueryParams;
+import chair.mahjong_record.dto.GameSettingRequest;
+import chair.mahjong_record.model.GameSetting;
 import chair.mahjong_record.service.SettingService;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 public class SettingController {
@@ -17,32 +19,76 @@ public class SettingController {
     @Autowired
     private SettingService settingService;
 
+
+    @GetMapping("/gameSetting")
+    public String game_setting(Model model,
+                         //排序Sorting
+                         @RequestParam(defaultValue = "created_date")String orderBy,
+                         @RequestParam(defaultValue = "asc")String sort,
+                         //分頁Pagination
+                         @RequestParam(defaultValue = "5")@Max(1000) @Min(0)Integer limit,
+                         @RequestParam(defaultValue = "0") @Min(0)Integer offset) {
+
+        GameSettingQueryParams gameSettingQueryParams = new GameSettingQueryParams();
+        gameSettingQueryParams.setOrderBy(orderBy);
+        gameSettingQueryParams.setSort(sort);
+        gameSettingQueryParams.setLimit(limit);
+        gameSettingQueryParams.setOffset(offset);
+        model.addAttribute("gameSettingQueryParams", gameSettingQueryParams);
+
+        List<GameSetting> gameSettingList =settingService.getSettings(gameSettingQueryParams);
+        model.addAttribute("gameSettingList", gameSettingList);
+        //使前端獲得數據得以呈現
+
+        //獲取玩家總數
+        int totalSettings = settingService.getTotalSettingCount();
+        int totalPages = (int) Math.ceil((double) totalSettings / limit);
+        int currentPage = offset / limit;
+
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("currentPage", currentPage);
+        //使前端獲得數據得以呈現
+
+        GameSettingRequest gameSettingRequest = new GameSettingRequest();
+        model.addAttribute("gameSettingsRequest", gameSettingRequest);
+
+        return "gameSetting";
+    }
+
+    @PostMapping("/delete_setting/{settingId}")
+    public String delete_setting(@PathVariable Integer settingId) {
+        settingService.deleteSettingById(settingId);
+        return "redirect:/gameSetting";
+    }
+
+
+
     @GetMapping("/add_game_setting")
     public String game_setting(Model model){
-        GameSettingsRequest gameSettingsRequest = new GameSettingsRequest();
-        model.addAttribute("gameSettingsRequest",gameSettingsRequest);
+        GameSettingRequest gameSettingRequest = new GameSettingRequest();
+        model.addAttribute("gameSettingsRequest", gameSettingRequest);
         return "game_settings";
     }
     @PostMapping("/add_game_setting")
-    public String game_setting(@ModelAttribute("gameSettingsRequest") GameSettingsRequest gameSettingsRequest,
+    public String game_setting(@ModelAttribute("gameSettingsRequest") GameSettingRequest gameSettingRequest,
                                Model model){
-        int settingId =settingService.createSetting(gameSettingsRequest);
-        GameSettings gameSettings = settingService.getSettingById(settingId);
-        if(gameSettings!=null){
+        int settingId =settingService.createSetting(gameSettingRequest);
+        GameSetting gameSetting = settingService.getSettingById(settingId);
+        if(gameSetting !=null){
             model.addAttribute("message", "Create Success!");
-            model.addAttribute("redirectUrl", "/index"); // 設定跳轉的目標 URL
+            model.addAttribute("redirectUrl", "/gameSetting"); // 設定跳轉的目標 URL
         }else{
             model.addAttribute("message", "Create Failed!");
-            model.addAttribute("redirectUrl", "/add_player");
+            model.addAttribute("redirectUrl", "/gameSetting");
         }
         return "result";
     }
     @GetMapping("/game_setting/{settingId}")
         public String read_game_setting(@PathVariable Integer settingId,
                                         Model model){
-        GameSettings gameSettings =settingService.getSettingById(settingId);
-        if(gameSettings!=null){
-            model.addAttribute("gameSettings",gameSettings);
+        GameSetting gameSetting =settingService.getSettingById(settingId);
+        if(gameSetting !=null){
+            model.addAttribute("gameSettings", gameSetting);
             return "read_game_setting";
         }else{
             return "error";

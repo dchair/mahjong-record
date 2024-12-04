@@ -1,6 +1,6 @@
 package chair.mahjong_record.dto;
 
-public class GameSettingsRequest {
+public class GameSettingRequest {
     private Integer baseFanPrice;
     private Integer perFanPrice;
 

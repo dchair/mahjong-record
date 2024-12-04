@@ -6,7 +6,7 @@ import chair.mahjong_record.dao.SettingDao;
 import chair.mahjong_record.dto.CreateRecordRequest;
 import chair.mahjong_record.dto.RecordInfo;
 import chair.mahjong_record.model.GameRecord;
-import chair.mahjong_record.model.GameSettings;
+import chair.mahjong_record.model.GameSetting;
 import chair.mahjong_record.model.Player;
 import chair.mahjong_record.service.RecordService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +48,7 @@ public class RecordServiceImpl  implements RecordService {
             calculateFan = calculateFan+extraFan;
         }
         //處理金額
-        GameSettings settings =settingDao.getSettingById(settingId);
+        GameSetting settings =settingDao.getSettingById(settingId);
         int winMoney = settings.getBaseFanPrice()+settings.getPerFanPrice()*calculateFan;
         int loseMoney =-winMoney;
 
@@ -89,7 +89,7 @@ public class RecordServiceImpl  implements RecordService {
                 calculateFan = calculateFan+extraFan;
             }
             //處理金額
-            GameSettings settings =settingDao.getSettingById(settingId);
+            GameSetting settings =settingDao.getSettingById(settingId);
             int winMoney = settings.getBaseFanPrice()+settings.getPerFanPrice()*calculateFan;
             int loseMoney =-winMoney;
 

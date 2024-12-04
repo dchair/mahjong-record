@@ -1,8 +1,9 @@
 package chair.mahjong_record.dao.impl;
 
 import chair.mahjong_record.dao.SettingDao;
-import chair.mahjong_record.dto.GameSettingsRequest;
-import chair.mahjong_record.model.GameSettings;
+import chair.mahjong_record.dto.GameSettingQueryParams;
+import chair.mahjong_record.dto.GameSettingRequest;
+import chair.mahjong_record.model.GameSetting;
 import chair.mahjong_record.rowMapper.SettingRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -23,30 +24,30 @@ public class SettingDaoImpl implements SettingDao {
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     @Override
-    public GameSettings getSettingById(Integer settingId) {
+    public GameSetting getSettingById(Integer settingId) {
         String sql = "SELECT setting_id, base_fan_price ,per_fan_price ," +
                 " created_date , last_modified_date FROM game_settings " +
                 " WHERE setting_id = :settingId";
         Map<String , Object> map = new HashMap<>();
         map.put("settingId", settingId);
 
-        List<GameSettings> gameSettingsList = namedParameterJdbcTemplate.query(sql, map, new SettingRowMapper());
+        List<GameSetting> gameSettingList = namedParameterJdbcTemplate.query(sql, map, new SettingRowMapper());
 
-        if(!gameSettingsList.isEmpty()){
-            return gameSettingsList.get(0);
+        if(!gameSettingList.isEmpty()){
+            return gameSettingList.get(0);
         }else{
             return null;
         }
     }
 
     @Override
-    public Integer createSetting(GameSettingsRequest gameSettingsRequest) {
+    public Integer createSetting(GameSettingRequest gameSettingRequest) {
         String sql ="INSERT INTO game_settings (base_fan_price ,per_fan_price ," +
                 " created_date , last_modified_date ) VALUES (:baseFanPrice," +
                 ":perFanPrice,:createdDate,:lastModifiedDate)";
         Map<String, Object> map = new HashMap<>();
-        map.put("baseFanPrice", gameSettingsRequest.getBaseFanPrice());
-        map.put("perFanPrice", gameSettingsRequest.getPerFanPrice());
+        map.put("baseFanPrice", gameSettingRequest.getBaseFanPrice());
+        map.put("perFanPrice", gameSettingRequest.getPerFanPrice());
 
         Date now = new Date();
         map.put("createdDate",now);
@@ -60,14 +61,23 @@ public class SettingDaoImpl implements SettingDao {
     }
 
     @Override
-    public List<GameSettings> getSettings() {
+    public List<GameSetting> getSettings(GameSettingQueryParams gameSettingQueryParams) {
         String sql="SELECT setting_id,base_fan_price,per_fan_price," +
-                "created_date,last_modified_date FROM game_settings";
-        return namedParameterJdbcTemplate.query(sql, new SettingRowMapper());
+                "created_date,last_modified_date FROM game_settings WHERE 1=1";
+        sql=sql+" ORDER BY "+gameSettingQueryParams.getOrderBy() +" "+gameSettingQueryParams.getSort();
+
+        Map<String ,Object> map = new HashMap<>();
+        map.put("limit",gameSettingQueryParams.getLimit());
+        map.put("offset",gameSettingQueryParams.getOffset());
+        sql=sql+" LIMIT :limit OFFSET :offset";
+
+        List<GameSetting> gameSettingList =namedParameterJdbcTemplate.query(sql,map, new SettingRowMapper());
+        return gameSettingList;
+
     }
 
     @Override
-    public GameSettings isSettingExists(Integer settingId) {
+    public GameSetting isSettingExists(Integer settingId) {
         String sql ="SELECT setting_id,base_fan_price,per_fan_price," +
                 "created_date,last_modified_date FROM game_settings WHERE " +
                 " setting_id =:settingId";
@@ -76,10 +86,26 @@ public class SettingDaoImpl implements SettingDao {
 
         try{
             return namedParameterJdbcTemplate.queryForObject(
-                    sql,map,new BeanPropertyRowMapper<GameSettings>(GameSettings.class)
+                    sql,map,new BeanPropertyRowMapper<GameSetting>(GameSetting.class)
             );
         }catch (Exception e){
             return null;
         }
+    }
+
+    @Override
+    public Integer getTotalSettingCount() {
+       String sql ="SELECT COUNT(*) FROM game_settings";
+       return namedParameterJdbcTemplate.queryForObject(sql,new HashMap<>(),Integer.class);
+    }
+
+    @Override
+    public void deleteSettingById(Integer settingId) {
+        String sql ="DELETE FROM game_settings WHERE setting_id = :settingId";
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("settingId", settingId);
+
+        namedParameterJdbcTemplate.update(sql,map);
     }
 }
