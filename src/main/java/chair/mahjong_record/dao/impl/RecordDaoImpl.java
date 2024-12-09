@@ -1,7 +1,10 @@
 package chair.mahjong_record.dao.impl;
 
 import chair.mahjong_record.dao.RecordDao;
+import chair.mahjong_record.dto.RecordSettingDTO;
+import chair.mahjong_record.dto.RecordSettingDTOQueryParams;
 import chair.mahjong_record.model.GameRecord;
+import chair.mahjong_record.rowMapper.RecordSettingRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -70,6 +73,53 @@ public class RecordDaoImpl implements RecordDao {
 
         }
         namedParameterJdbcTemplate.batchUpdate(sql, parameterSources);
+    }
+
+    //未完成
+    @Override
+    public List<RecordSettingDTO> getRecordSettingDTOList(RecordSettingDTOQueryParams rSDTOQueryParams) {
+
+        String sql ="SELECT r.record_id,r.setting_id,r.dealer_name,r.calculate_fan," +
+                "r.winner_name,r.win_money,r.loser_name,r.lose_money,r.set_id," +
+                "r.created_date,r.last_modified_date,s.base_fan_price,s.per_fan_price"+
+                " FROM game_record r "+
+                "JOIN game_settings s ON r.setting_id = s.setting_id WHERE 1=1";
+
+        sql=sql+" ORDER BY "+ rSDTOQueryParams.getOrderBy() +" "+rSDTOQueryParams.getSort();
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("limit",rSDTOQueryParams.getLimit());
+        map.put("offset",rSDTOQueryParams.getOffset());
+        sql=sql+" LIMIT :limit OFFSET :offset";
+
+        List<RecordSettingDTO> recordSettingDTOList =namedParameterJdbcTemplate.query(sql,map,new RecordSettingRowMapper());
+        return recordSettingDTOList;
+    }
+
+    @Override
+    public Integer getTotalRecordCount() {
+        String sql = "SELECT COUNT(*) FROM game_record";
+        return namedParameterJdbcTemplate.queryForObject(sql, new HashMap<>(), Integer.class);
+    }
+
+    @Override
+    public List<RecordSettingDTO> getRecordPageRecently(RecordSettingDTOQueryParams recordSettingDTOQueryParams, List<String> playerNames) {
+        String sql = "SELECT r.record_id,r.setting_id,r.dealer_name,r.calculate_fan," +
+                "r.winner_name,r.win_money,r.loser_name,r.lose_money,r.set_id," +
+                "r.created_date,r.last_modified_date,s.base_fan_price,s.per_fan_price"+
+                " FROM game_record r "+
+                "JOIN game_settings s ON r.setting_id = s.setting_id WHERE 1=1";
+
+        sql = sql + " AND WINNER_NAME IN (:playerNames) OR LOSER_NAME IN (:playerNames)";
+        sql = sql + " ORDER BY " + recordSettingDTOQueryParams.getOrderBy() + " " + recordSettingDTOQueryParams.getSort();
+        sql = sql + " LIMIT :limit OFFSET :offset";
+        Map<String, Object> map = new HashMap<>();
+        map.put("playerNames", playerNames);
+        map.put("limit", recordSettingDTOQueryParams.getLimit());
+        map.put("offset", recordSettingDTOQueryParams.getOffset());
+
+        List<RecordSettingDTO> recordSettingDTOList = namedParameterJdbcTemplate.query(sql, map, new RecordSettingRowMapper());
+        return recordSettingDTOList;
     }
 
 }

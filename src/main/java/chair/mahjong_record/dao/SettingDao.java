@@ -10,6 +10,7 @@ public interface SettingDao {
     Integer createSetting(GameSettingRequest gameSettingRequest);
     GameSetting getSettingById(Integer settingId);
     List<GameSetting> getSettings(GameSettingQueryParams gameSettingQueryParams);
+    List<GameSetting>getSettingsSelect();
     GameSetting isSettingExists(Integer settingId);
     Integer  getTotalSettingCount();
     void deleteSettingById(Integer settingId);

@@ -55,7 +55,7 @@
     <option value="">-- Select a Setting ID --</option>
     <option th:each="gameSettings : ${gameSettingsList}"
             th:value="${gameSettings.settingId}"
-            th:text="${gameSettings.settingId}">
+            th:text="'ID: ' + ${gameSettings.settingId} + ' | 基礎台: ' + ${gameSettings.baseFanPrice} + ' | 台數價格: ' + ${gameSettings.perFanPrice}">>
     </option>
 </select>
 <br><br>

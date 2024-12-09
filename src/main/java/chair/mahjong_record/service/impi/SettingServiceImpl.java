@@ -45,4 +45,9 @@ public class SettingServiceImpl implements SettingService {
     public void deleteSettingById(Integer settingId) {
         settingDao.deleteSettingById(settingId);
     }
+
+    @Override
+    public List<GameSetting> getSettingsSelect() {
+        return settingDao.getSettingsSelect();
+    }
 }

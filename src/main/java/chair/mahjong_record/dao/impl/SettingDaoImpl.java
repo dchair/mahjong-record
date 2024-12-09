@@ -77,6 +77,14 @@ public class SettingDaoImpl implements SettingDao {
     }
 
     @Override
+    public List<GameSetting> getSettingsSelect() {
+        String sql="SELECT setting_id,base_fan_price,per_fan_price," +
+                "created_date,last_modified_date FROM game_settings WHERE 1=1";
+        List<GameSetting> gameSettingsList =namedParameterJdbcTemplate.query(sql, new SettingRowMapper());
+        return gameSettingsList;
+    }
+
+    @Override
     public GameSetting isSettingExists(Integer settingId) {
         String sql ="SELECT setting_id,base_fan_price,per_fan_price," +
                 "created_date,last_modified_date FROM game_settings WHERE " +

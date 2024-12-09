@@ -1,15 +1,15 @@
 package chair.mahjong_record.controller;
 
 import chair.mahjong_record.Tracker.SetIdTracker;
-import chair.mahjong_record.dto.CreateRecordRequest;
-import chair.mahjong_record.dto.PlayerQueryParams;
-import chair.mahjong_record.dto.RecordInfo;
+import chair.mahjong_record.dto.*;
 import chair.mahjong_record.model.GameSetting;
 import chair.mahjong_record.model.Player;
 import chair.mahjong_record.service.PlayerService;
 import chair.mahjong_record.service.RecordService;
 import chair.mahjong_record.service.SettingService;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,18 +33,20 @@ public class RecordController {
     PlayerService playerService;
 
     //A
-//    @GetMapping("/record")
-//    public String record_settings(Model model, PlayerQueryParams playerQueryParams) {
-//        //將資料庫的setting找出，並用下拉式選單讓玩家做選擇
-//        List<GameSetting> gameSettingList = settingService.getSettings();
-//        //將資料庫的player找出，並用下拉式選單選玩家
-//        List<Player> players = playerService.getPlayers(playerQueryParams);
-//        //備資料給前端準備
-//        model.addAttribute("gameSettingsList", gameSettingList);
-//        model.addAttribute("players",players);
-//
-//        return "record_settings";
-//    }
+    @GetMapping("/record")
+    public String record(Model model,
+                         GameSettingRequest gameSettingRequest,
+                         PlayerRequest playerRequest) {
+        //將資料庫的setting找出，並用下拉式選單讓玩家做選擇
+        List<GameSetting> gameSettingList = settingService.getSettingsSelect();
+        //將資料庫的player找出，並用下拉式選單選玩家
+        List<Player> players = playerService.getPlayerSelect();
+        //備資料給前端準備
+        model.addAttribute("gameSettingsList", gameSettingList);
+        model.addAttribute("players",players);
+
+        return "record_settings";
+    }
 
     //B
     @PostMapping("/record")
@@ -71,7 +73,14 @@ public class RecordController {
 //紀錄遊戲輸贏
     @GetMapping("record/game_record")
     public String record_game_record(HttpSession session,
-                                    Model model) {
+                                    Model model,
+                                     @RequestParam(defaultValue = "created_date")String orderBy,
+                                     @RequestParam(defaultValue = "desc")String sort,
+                                     //分頁Pagination
+                                     @RequestParam(defaultValue = "10")@Max(1000) @Min(0)Integer limit,
+                                     @RequestParam(defaultValue = "0") @Min(0)Integer offset
+                                     ) {
+        //假設沒有抓到他session內的玩家就導向他回record去設定玩家
        if(session.getAttribute("settingId") == null||session.getAttribute("playerNames") == null) {
            return "redirect:/record";
        }
@@ -94,6 +103,16 @@ public class RecordController {
         // 將玩家資訊加入到 Model
         model.addAttribute("playerInfo", playerInfo);
 
+        RecordSettingDTOQueryParams rSDTOQueryParams=new RecordSettingDTOQueryParams();
+        rSDTOQueryParams.setOrderBy(orderBy);
+        rSDTOQueryParams.setSort(sort);
+        rSDTOQueryParams.setLimit(limit);
+        rSDTOQueryParams.setOffset(offset);
+
+
+
+        List<RecordSettingDTO> recordSettingDTOList =recordService.getRecordPageRecently(rSDTOQueryParams,playerNames);
+        model.addAttribute("recordSettingDTOList", recordSettingDTOList);
         return "game_records";
     }
     //D
@@ -147,9 +166,34 @@ public class RecordController {
         return "redirect:/record/game_record";
 
     }
-//    @GetMapping("/record/record_data")
-//    public String record_record_data(Model model){
-//
-//    }
+    @GetMapping("/record/record_data")
+    public String record_record_data(Model model,
+                                     @RequestParam(defaultValue = "created_date")String orderBy,
+                                     @RequestParam(defaultValue = "desc")String sort,
+                                     //分頁Pagination
+                                     @RequestParam(defaultValue = "10")@Max(1000) @Min(0)Integer limit,
+                                     @RequestParam(defaultValue = "0") @Min(0)Integer offset){
+        RecordSettingDTOQueryParams rSDTOQueryParams=new RecordSettingDTOQueryParams();
+        rSDTOQueryParams.setOrderBy(orderBy);
+        rSDTOQueryParams.setSort(sort);
+        rSDTOQueryParams.setLimit(limit);
+        rSDTOQueryParams.setOffset(offset);
+        model.addAttribute("rSDTOQueryParams", rSDTOQueryParams);
+
+        List<RecordSettingDTO> recordSettingDTOList =recordService.getRecordSettingDTOList(rSDTOQueryParams);
+        model.addAttribute("recordSettingDTOList", recordSettingDTOList);
+
+        //獲取玩家總數
+        int totalRecord = recordService.getTotalRecordCount();
+        int totalPages = (int) Math.ceil((double) totalRecord / limit);
+        int currentPage = offset / limit;
+
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("currentPage", currentPage);
+
+
+        return "record_record_data";
+
+    }
 
 }

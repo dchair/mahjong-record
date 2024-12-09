@@ -52,6 +52,11 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
+    public List<Player> getPlayerSelect() {
+        return playerDao.getPlayerSelect();
+    }
+
+    @Override
     public Boolean isPlayerExists(String playerName) {
         return playerDao.checkPlayerByName(playerName) != null;
     }

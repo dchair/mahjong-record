@@ -5,6 +5,8 @@ import chair.mahjong_record.dao.RecordDao;
 import chair.mahjong_record.dao.SettingDao;
 import chair.mahjong_record.dto.CreateRecordRequest;
 import chair.mahjong_record.dto.RecordInfo;
+import chair.mahjong_record.dto.RecordSettingDTO;
+import chair.mahjong_record.dto.RecordSettingDTOQueryParams;
 import chair.mahjong_record.model.GameRecord;
 import chair.mahjong_record.model.GameSetting;
 import chair.mahjong_record.model.Player;
@@ -112,5 +114,20 @@ public class RecordServiceImpl  implements RecordService {
             gameRecordList.add(gameRecord);
         }
         recordDao.createDRecord(gameRecordList);
+    }
+
+    @Override
+    public List<RecordSettingDTO> getRecordSettingDTOList(RecordSettingDTOQueryParams rSDTOQueryParams) {
+        return recordDao.getRecordSettingDTOList(rSDTOQueryParams);
+    }
+
+    @Override
+    public Integer getTotalRecordCount() {
+        return recordDao.getTotalRecordCount();
+    }
+
+    @Override
+    public List<RecordSettingDTO> getRecordPageRecently(RecordSettingDTOQueryParams recordSettingDTOQueryParams, List<String> playerNames) {
+        return recordDao.getRecordPageRecently(recordSettingDTOQueryParams,playerNames);
     }
 }

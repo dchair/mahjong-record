@@ -13,4 +13,5 @@ public interface SettingService {
     Boolean isSettingExists(Integer settingId);
     Integer  getTotalSettingCount();
     void deleteSettingById(Integer settingId);
+    List<GameSetting> getSettingsSelect();
 }

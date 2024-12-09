@@ -93,6 +93,15 @@ public class PlayerDaoImpl implements PlayerDao {
     }
 
     @Override
+    public List<Player> getPlayerSelect() {
+        String sql="SELECT player_id,player_name,chips,created_date,last_modified_date " +
+                "FROM player WHERE 1=1";
+        List<Player> players =namedParameterJdbcTemplate.query(sql, new PlayerRowMapper());
+        return players;
+
+    }
+
+    @Override
     public void deletePlayerById(Integer playerId) {
         String sql = "DELETE FROM player WHERE player_id = :playerId";
 

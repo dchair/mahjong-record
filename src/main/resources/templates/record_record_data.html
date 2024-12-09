@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Mahjong Record Data</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .controls select, .controls button {
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            padding: 0;
+            margin: 20px auto;
+            text-align: center;
+        }
+
+        .pagination li {
+            margin: 0 5px;
+        }
+
+        .pagination a {
+            text-decoration: none;
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+            color: #333;
+            border-radius: 4px;
+        }
+
+        .active a {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+<h1>Mahjong Record Data</h1>
+
+<div class="controls">
+    <!-- 排序功能 -->
+    <div>
+        <label for="orderBy">排序依據:</label>
+        <select id="orderBy" onchange="updateSorting()">
+            <option value="created_date" th:selected="${rSDTOQueryParams.orderBy == 'created_date'}">創建時間</option>
+            <option value="dealer_name" th:selected="${rSDTOQueryParams.orderBy == 'dealer_name'}">莊家名稱</option>
+            <option value="winner_name" th:selected="${rSDTOQueryParams.orderBy == 'winner_name'}">贏家名稱</option>
+        </select>
+
+        <button id="sortButton" onclick="toggleSortOrder()">升序</button>
+    </div>
+</div>
+
+<table>
+    <thead>
+    <tr>
+        <th>記錄 ID</th>
+        <th>設定編號</th>
+        <th>莊家名稱</th>
+        <th>計算番數</th>
+        <th>贏家名稱</th>
+        <th>贏家金額</th>
+        <th>輸家名稱</th>
+        <th>輸家金額</th>
+        <th>盤數編號</th>
+        <th>創建時間</th>
+        <th>最後修改時間</th>
+        <th>基本台錢</th>
+        <th>每台價格</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="record : ${recordSettingDTOList}">
+        <td th:text="${record.recordId}"></td>
+        <td th:text="${record.settingId}"></td>
+        <td th:text="${record.dealerName}"></td>
+        <td th:text="${record.calculateFan}"></td>
+        <td th:text="${record.winnerName}"></td>
+        <td th:text="${record.winMoney}"></td>
+        <td th:text="${record.loserName}"></td>
+        <td th:text="${record.loseMoney}"></td>
+        <td th:text="${record.setId}"></td>
+        <td th:text="${#dates.format(record.createdDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+        <td th:text="${#dates.format(record.lastModifiedDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+        <td th:text="${record.baseFanPrice}"></td>
+        <td th:text="${record.perFanPrice}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<!-- 分頁導航 -->
+<ul class="pagination">
+    <li th:if="${currentPage > 0}">
+        <a th:href="@{/record/record_data(orderBy=${rSDTOQueryParams.orderBy}, sort=${rSDTOQueryParams.sort}, limit=${rSDTOQueryParams.limit}, offset=${(currentPage - 1) * rSDTOQueryParams.limit})}">
+            上一頁
+        </a>
+    </li>
+
+    <li th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+        th:classappend="${currentPage == i} ? 'active'">
+        <a th:href="@{/record/record_data(orderBy=${rSDTOQueryParams.orderBy}, sort=${rSDTOQueryParams.sort}, limit=${rSDTOQueryParams.limit}, offset=${i * rSDTOQueryParams.limit})}"
+           th:text="${i + 1}"></a>
+    </li>
+
+    <li th:if="${currentPage < totalPages - 1}">
+        <a th:href="@{/record/record_data(orderBy=${rSDTOQueryParams.orderBy}, sort=${rSDTOQueryParams.sort}, limit=${rSDTOQueryParams.limit}, offset=${(currentPage + 1) * rSDTOQueryParams.limit})}">
+            下一頁
+        </a>
+    </li>
+</ul>
+
+<p style="text-align: center; color: #666;">總頁數: <span th:text="${totalPages}"></span></p>
+
+<script>
+    let currentOrderBy = "[[${rSDTOQueryParams.orderBy}]]";
+    let currentSort = "[[${rSDTOQueryParams.sort}]]";
+
+    function updateSorting() {
+        const orderBy = document.getElementById('orderBy').value;
+        location.href = `/record/record_data?orderBy=${orderBy}&sort=${currentSort}&limit=[[${rSDTOQueryParams.limit}]]&offset=[[${rSDTOQueryParams.offset}]]`;
+    }
+
+    function toggleSortOrder() {
+        const sortButton = document.getElementById('sortButton');
+        currentSort = currentSort === 'asc' ? 'desc' : 'asc';
+        sortButton.textContent = currentSort === 'asc' ? '升序' : '降序';
+        location.href = `/record/record_data?orderBy=${currentOrderBy}&sort=${currentSort}&limit=[[${rSDTOQueryParams.limit}]]&offset=[[${rSDTOQueryParams.offset}]]`;
+    }
+</script>
+</body>
+</html>

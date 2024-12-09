@@ -11,6 +11,7 @@ public interface PlayerDao {
     Player getPlayerById(Integer playerId);
     Player getPlayerByName(String playerName);
     List<Player> getPlayers(PlayerQueryParams playerQueryParams);
+    List<Player> getPlayerSelect();
     void updatePlayerChips(Integer playerId, Integer chips);
     void deletePlayerById(Integer playerId);
     Player checkPlayerByName(String playerName);
