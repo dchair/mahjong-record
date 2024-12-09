@@ -34,9 +34,8 @@ public class RecordController {
 
     //A
     @GetMapping("/record")
-    public String record(Model model,
-                         GameSettingRequest gameSettingRequest,
-                         PlayerRequest playerRequest) {
+    public String record(Model model
+                         ) {
         //將資料庫的setting找出，並用下拉式選單讓玩家做選擇
         List<GameSetting> gameSettingList = settingService.getSettingsSelect();
         //將資料庫的player找出，並用下拉式選單選玩家
