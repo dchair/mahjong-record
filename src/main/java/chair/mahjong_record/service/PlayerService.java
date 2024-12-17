@@ -14,7 +14,6 @@ public interface PlayerService {
     List<Player>getPlayers(PlayerQueryParams playerQueryParams);
     List<Player>getPlayerSelect();
     void deletePlayerById(Integer playerId);
-    Boolean isPlayerExists(String playerName);
     Player getPlayerByName(String playerName);
     Integer  getTotalPlayerCount();
 }

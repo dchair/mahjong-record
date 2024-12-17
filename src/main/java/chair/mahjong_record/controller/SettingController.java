@@ -62,13 +62,6 @@ public class SettingController {
     }
 
 
-
-    @GetMapping("/add_game_setting")
-    public String game_setting(Model model){
-        GameSettingRequest gameSettingRequest = new GameSettingRequest();
-        model.addAttribute("gameSettingsRequest", gameSettingRequest);
-        return "game_settings";
-    }
     @PostMapping("/add_game_setting")
     public String game_setting(@ModelAttribute("gameSettingsRequest") GameSettingRequest gameSettingRequest,
                                Model model){
@@ -83,31 +76,21 @@ public class SettingController {
         }
         return "result";
     }
-    @GetMapping("/game_setting/{settingId}")
-        public String read_game_setting(@PathVariable Integer settingId,
-                                        Model model){
-        GameSetting gameSetting =settingService.getSettingById(settingId);
-        if(gameSetting !=null){
-            model.addAttribute("gameSettings", gameSetting);
-            return "read_game_setting";
-        }else{
-            return "error";
-        }
-    }
 
-    @GetMapping("/setting/validate/{settingId}")
-    public String checkSetting(@PathVariable("settingId") Integer settingId, Model model) {
-        // 檢查settingId是否存在
-        boolean exists = settingService.isSettingExists(settingId);
-
-        if (!exists) {
-            // 如果不存在，將錯誤訊息添加到模型並重定向到錯誤頁面
-            model.addAttribute("errormessage", "設定ID " + settingId + " 不存在");
-            return "error"; // error.html頁面
-        }
-
-        // 如果存在，繼續處理邏輯
-        // ...
-        return "game_settings"; // 如果設定存在，返回遊戲設定頁面
-    }
+//
+//    @GetMapping("/setting/validate/{settingId}")
+//    public String checkSetting(@PathVariable("settingId") Integer settingId, Model model) {
+//        // 檢查settingId是否存在
+//        boolean exists = settingService.isSettingExists(settingId);
+//
+//        if (!exists) {
+//            // 如果不存在，將錯誤訊息添加到模型並重定向到錯誤頁面
+//            model.addAttribute("errormessage", "設定ID " + settingId + " 不存在");
+//            return "error"; // error.html頁面
+//        }
+//
+//        // 如果存在，繼續處理邏輯
+//        // ...
+//        return "game_settings"; // 如果設定存在，返回遊戲設定頁面
+//    }
 }

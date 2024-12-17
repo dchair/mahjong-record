@@ -21,13 +21,7 @@ public class PlayerController {
     @Autowired
     private PlayerService playerService;
 
-    @GetMapping("/player/add_player")
-    public String add_player(Model model){
-        //這裡開一個名字為 playerRequest  的模型(PlayerModel)
-        PlayerRequest playerRequest =new PlayerRequest();
-        model.addAttribute("playerRequest",playerRequest);
-        return "add_player";
-    }
+
     @GetMapping("/player")
     public String player(Model model,
                      //排序Sorting
