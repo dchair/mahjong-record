@@ -4,6 +4,7 @@ import chair.mahjong_record.dto.MemberLoginRequest;
 import chair.mahjong_record.dto.MemberRegisterRequest;
 import chair.mahjong_record.model.Member;
 import chair.mahjong_record.service.MemberService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,7 +14,6 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("member")
-//@SessionAttributes("member")
 public class MemberController {
 
     @Autowired
@@ -54,15 +54,22 @@ public class MemberController {
     }
     @PostMapping("/login")
     public String login(@ModelAttribute("memberLoginRequest")MemberLoginRequest memberLoginRequest
-            ,Model model) {
+            , Model model, HttpSession session) {
         Optional<Member> existingMember = memberService.memberLogin(memberLoginRequest);
         //如果登入成功
         if (existingMember.isPresent()) {
-            model.addAttribute("memberInfo", existingMember.get());
+            //新增session 會員資訊
+            session.setAttribute("memberInfo", existingMember.get());
             return "redirect:/index";
         } else {
             model.addAttribute("error", "帳號或密碼錯誤，請重新輸入。");
             return "memberLogin";
         }
     }
+    @GetMapping("/logout")
+    public String logout(HttpSession session,Model model) {
+        session.invalidate(); // 清除 Session
+        return "redirect:/index";
+    }
+
 }

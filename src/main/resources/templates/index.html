@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <title>首頁</title>
 </head>
+
+<!-- 引入導航列 -->
+<div th:insert="fragments/fragments.html :: navbar"></div>
+
 <body>
 <div>
     <a href="/player">玩家功能</a>
@@ -13,6 +17,11 @@
     <a href="/record">選擇麻將設定</a>
     <br>
     <a href="record/record_data">查看遊戲紀錄</a>
+    <br>
+    <a href="member/register">會員註冊</a>
+    <br>
+    <a href="member/login">會員登入</a>
+
 
 
 

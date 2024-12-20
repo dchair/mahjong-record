@@ -1,0 +1,31 @@
+
+    /* 導航列樣式 */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #007BFF; /* 藍色基底 */
+    color: white; /* 白色文字 */
+    padding: 10px 20px;
+    font-family: Arial, sans-serif;
+}
+
+.navbar a {
+    color: white; /* 超連結文字顏色 */
+    text-decoration: none;
+    margin: 0 10px;
+    font-size: 16px;
+}
+
+.navbar a:hover {
+    text-decoration: underline; /* 滑鼠懸停效果 */
+}
+
+.left-menu a {
+    font-weight: bold;
+    font-size: 20px; /* 左側網站名稱文字稍大 */
+}
+
+.right-menu span {
+    margin-right: 10px; /* 歡迎文字與按鈕間距 */
+}

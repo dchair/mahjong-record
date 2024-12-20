@@ -11,6 +11,8 @@
     </script>
 </head>
 <body>
+<div th:insert="fragments/fragments.html :: navbar"></div>
+
     <h1>發生錯誤</h1>
         <p th:text="${errormessage}"></p>
         <p>系統將在2秒後自動跳轉至上一頁...</p>
