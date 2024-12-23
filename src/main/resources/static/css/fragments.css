@@ -1,6 +1,10 @@
-
-    /* 導航列樣式 */
+/* 導航列樣式 */
 .navbar {
+    position: fixed; /* 固定位置 */
+    top: 0 ; /* 距離頂部 0 */
+    left: 0 ; /* 距離左側 0 */
+    width: 95%; /* 占滿整個寬度 */
+    z-index: 1000; /* 確保導覽列位於最上層 */
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -8,6 +12,7 @@
     color: white; /* 白色文字 */
     padding: 10px 20px;
     font-family: Arial, sans-serif;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* 增加陰影效果 */
 }
 
 .navbar a {
@@ -28,4 +33,9 @@
 
 .right-menu span {
     margin-right: 10px; /* 歡迎文字與按鈕間距 */
+}
+
+/* 避免內容被導覽列覆蓋 */
+body {
+    margin-top: 60px; /* 根據導覽列的高度調整 */
 }
