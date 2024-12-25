@@ -44,14 +44,12 @@ public class SettingDaoImpl implements SettingDao {
     public Integer createSetting(GameSettingRequest gameSettingRequest) {
         String sql ="INSERT INTO game_settings (base_fan_price ,per_fan_price ," +
                 " created_date , last_modified_date ) VALUES (:baseFanPrice," +
-                ":perFanPrice,:createdDate,:lastModifiedDate)";
+                ":perFanPrice,NOW(),NOW()) RETURNING setting_id";
         Map<String, Object> map = new HashMap<>();
         map.put("baseFanPrice", gameSettingRequest.getBaseFanPrice());
         map.put("perFanPrice", gameSettingRequest.getPerFanPrice());
 
-        Date now = new Date();
-        map.put("createdDate",now);
-        map.put("lastModifiedDate",now);
+
 
         KeyHolder keyHolder =new GeneratedKeyHolder();
         namedParameterJdbcTemplate.update(sql,new MapSqlParameterSource(map),keyHolder);

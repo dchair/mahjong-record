@@ -26,19 +26,17 @@ public class MemberDaoImpl implements MemberDao {
 
     @Override
     public void register(MemberRegisterRequest memberRegisterRequest) {
-        String sql="INSERT INTO `member` (member_name,member_mail," +
+        String sql="INSERT INTO public.member (member_name,member_mail," +
                 "member_password,created_date,last_modified_date)" +
                 " VALUES (:memberName,:memberMail,:memberPassword," +
-                ":createdDate,:lastModifiedDate)";
+                "NOW(),NOW())" +" RETURNING member_id ";
 
         Map<String, Object> map = new HashMap<>();
         map.put("memberName",memberRegisterRequest.getMemberName());
         map.put("memberMail", memberRegisterRequest.getMemberMail());
         map.put("memberPassword", memberRegisterRequest.getMemberPassword());
 
-        Date now = new Date();
-        map.put("createdDate", now);
-        map.put("lastModifiedDate", now);
+
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -52,7 +50,7 @@ public class MemberDaoImpl implements MemberDao {
 
     @Override
     public Optional<Member> isMemberRegisteredByMail(String mail) {
-        String sql ="SELECT * FROM `member` WHERE member_mail=:memberMail";
+        String sql ="SELECT * FROM public.member WHERE member_mail=:memberMail";
         Map<String, Object> map = new HashMap<>();
         map.put("memberMail", mail);
 

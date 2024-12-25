@@ -27,15 +27,12 @@ public class PlayerDaoImpl implements PlayerDao {
     @Override
     public Integer addPlayer(PlayerRequest playerRequest) {
         String sql ="INSERT INTO player(player_name,chips,created_date,last_modified_date)"+
-                "VALUES(:playerName,:chips,:createdDate,:lastModifiedDate)";
+                "VALUES(:playerName,:chips,NOW(),NOW()) RETURNING player_id";
 
         Map<String, Object> map = new HashMap<>();
         map.put("playerName", playerRequest.getPlayerName());
         map.put("chips" , playerRequest.getChips());
 
-        Date now = new Date();
-        map.put("createdDate", now);
-        map.put("lastModifiedDate",now);
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
 

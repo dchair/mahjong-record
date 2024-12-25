@@ -28,7 +28,7 @@ public class RecordDaoImpl implements RecordDao {
         String sql ="INSERT INTO game_record (setting_id,dealer_name,calculate_fan," +
                 "winner_name,win_money,loser_name,lose_money,set_id,created_date," +
                 "last_modified_date) VALUES(:setting_id,:dealer_name,:calculate_fan," +
-                ":winner_name,:win_money,:loser_name,:lose_money,:set_id,:created_date,:last_modified_date)";
+                ":winner_name,:win_money,:loser_name,:lose_money,:set_id,NOW(),NOW())";
 
         Map<String, Object> map = new HashMap<>();
         map.put("setting_id", gameRecord.getSettingId());
@@ -39,9 +39,7 @@ public class RecordDaoImpl implements RecordDao {
         map.put("loser_name",gameRecord.getLoserName());
         map.put("lose_money", gameRecord.getLoseMoney());
         map.put("set_id", gameRecord.getSetId());
-        Date now = new Date();
-        map.put("created_date", now);
-        map.put("last_modified_date", now);
+
         KeyHolder keyHolder = new GeneratedKeyHolder();
         namedParameterJdbcTemplate.update(sql, new MapSqlParameterSource(map),keyHolder);
     }
@@ -51,7 +49,7 @@ public class RecordDaoImpl implements RecordDao {
         String sql= "INSERT INTO game_record(setting_id,dealer_name,calculate_fan," +
                 "winner_name,win_money,loser_name,lose_money,set_id,created_date," +
                 "last_modified_date) VALUES(:setting_id,:dealer_name,:calculate_fan," +
-                ":winner_name,:win_money,:loser_name,:lose_money,:set_id,:created_date,:last_modified_date)";
+                ":winner_name,:win_money,:loser_name,:lose_money,:set_id,NOW(),NOW())";
 
         MapSqlParameterSource[] parameterSources = new MapSqlParameterSource[gameRecordList.size()];
 
@@ -68,8 +66,7 @@ public class RecordDaoImpl implements RecordDao {
             parameterSources[i].addValue("loser_name", gameRecord.getLoserName());
             parameterSources[i].addValue("lose_money", gameRecord.getLoseMoney());
             parameterSources[i].addValue("set_id", gameRecord.getSetId());
-            parameterSources[i].addValue("created_date", now);
-            parameterSources[i].addValue("last_modified_date", now);
+
 
         }
         namedParameterJdbcTemplate.batchUpdate(sql, parameterSources);
