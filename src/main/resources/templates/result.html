@@ -6,7 +6,7 @@
     <title>Result Page</title>
 </head>
 <body>
-<div th:insert="~{fragments/fragments.html :: navbar}"></div>
+<div th:replace="~{fragments/fragments.html :: navbar}"></div>
 <!-- 用 Thymeleaf 渲染 Model 中的屬性 -->
 <div id="message" th:text="${message}"></div>
 <div id="redirectUrl" th:text="${redirectUrl}"></div>

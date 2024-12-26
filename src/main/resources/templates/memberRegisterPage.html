@@ -5,7 +5,7 @@
     <title>會員註冊</title>
 </head>
 <body>
-<div th:insert="~{fragments/fragments.html :: navbar}"></div>
+<div th:replace="~{fragments/fragments.html :: navbar}"></div>
 <h1>會員註冊</h1>
 <form th:action="@{/member/register}" th:object="${memberRegisterRequest}" method="post">
     <div>

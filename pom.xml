@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>chair</groupId>
-    <artifactId>count</artifactId>
+    <artifactId>mahjong_record</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>count</name>
-    <description>count</description>
+    <name>mahjong_record</name>
+    <description>mahjong_record</description>
     <properties>
         <java.version>17</java.version>
     </properties>
