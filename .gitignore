@@ -31,3 +31,5 @@ build/
 
 ### VS Code ###
 .vscode/
+
+.env  # 忽略 .env 文件
