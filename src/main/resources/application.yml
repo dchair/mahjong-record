@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: mahjong_record
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/mahjong_record
+    username: postgres
+    password: Cd19950824
+    hikari:
+      maximum-pool-size: 5
+      minimum-idle: 2
+
+  jackson:
+    time-zone: Asia/Taipei
+    date-format: yyyy-MM-dd HH:mm:ss
+
+  main:
+    lazy-initialization: true
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+
+
