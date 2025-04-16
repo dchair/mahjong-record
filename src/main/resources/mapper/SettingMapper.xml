@@ -5,12 +5,7 @@
 
 <mapper namespace ="chair.mahjong_record.mapper.SettingMapper">
     <select id="getSettingById" parameterType="int" resultType="chair.mahjong_record.model.GameSetting">
-        SELECT
-            setting_id,
-            base_fan_price,
-            per_fan_price,
-            created_date,
-            last_modified_date
+        SELECT *
         FROM
             game_settings
         WHERE

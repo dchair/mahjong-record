@@ -3,6 +3,7 @@ package chair.mahjong_record.service.impi;
 import chair.mahjong_record.dao.SettingDao;
 import chair.mahjong_record.dto.GameSettingQueryParams;
 import chair.mahjong_record.dto.GameSettingRequest;
+import chair.mahjong_record.mapper.SettingMapper;
 import chair.mahjong_record.model.GameSetting;
 import chair.mahjong_record.service.SettingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,18 +14,31 @@ import java.util.List;
 @Component
 public class SettingServiceImpl implements SettingService {
 
+    private final SettingMapper settingMapper;
+    private final SettingDao settingDao;
+
     @Autowired
-    private SettingDao settingDao;
+    public SettingServiceImpl(SettingMapper settingMapper,SettingDao settingDao) {
+        this.settingMapper = settingMapper;
+        this.settingDao = settingDao;
+    }
+
 
     @Override
     public Integer createSetting(GameSettingRequest gameSettingRequest) {
         return settingDao.createSetting(gameSettingRequest);
     }
-
+    //改用mapper
     @Override
     public GameSetting getSettingById(Integer settingId) {
-        return settingDao.getSettingById(settingId);
+        return settingMapper.getGameSettingById(settingId);
     }
+
+//    @Override
+//    public GameSetting getSettingById(Integer settingId) {
+//        return settingDao.getSettingById(settingId);
+//
+//    }
 
     @Override
     public List<GameSetting> getSettings(GameSettingQueryParams gameSettingQueryParams) {

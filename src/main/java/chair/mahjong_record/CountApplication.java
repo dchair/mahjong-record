@@ -1,9 +1,11 @@
 package chair.mahjong_record;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
+@MapperScan("chair.mahjong_record.mapper")
 public class CountApplication {
 
     public static void main(String[] args) {
