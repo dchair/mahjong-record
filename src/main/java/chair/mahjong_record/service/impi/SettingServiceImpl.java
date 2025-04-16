@@ -31,7 +31,7 @@ public class SettingServiceImpl implements SettingService {
     //改用mapper
     @Override
     public GameSetting getSettingById(Integer settingId) {
-        return settingMapper.getGameSettingById(settingId);
+        return settingMapper.getSettingById(settingId);
     }
 
 //    @Override

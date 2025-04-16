@@ -7,7 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 @MapperScan("chair.mahjong_record.mapper")
 public class CountApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(CountApplication.class, args);
     }
