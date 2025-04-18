@@ -3,10 +3,11 @@ package chair.mahjong_record.dto;
 public class GameSettingQueryParams {
     private Integer baseFanPrice;
     private Integer perFanPrice;
-    private String sort;
-    private String orderBy;
-    private Integer limit;
-    private Integer offset;
+    private String sort = "desc";
+    private String orderBy= "created_date";
+    private Integer limit=10;
+    private Integer offset=0;
+
 
     public Integer getBaseFanPrice() {
         return baseFanPrice;

@@ -20,39 +20,60 @@ public class SettingController {
     private SettingService settingService;
 
 
+//    @GetMapping("/gameSetting")
+//    public String game_setting(Model model,
+//                         //排序Sorting
+//                         @RequestParam(defaultValue = "created_date")String orderBy,
+//                         @RequestParam(defaultValue = "asc")String sort,
+//                         //分頁Pagination
+//                         @RequestParam(defaultValue = "5")@Max(1000) @Min(0)Integer limit,
+//                         @RequestParam(defaultValue = "0") @Min(0)Integer offset) {
+//
+//        GameSettingQueryParams gameSettingQueryParams = new GameSettingQueryParams();
+//        gameSettingQueryParams.setOrderBy(orderBy);
+//        gameSettingQueryParams.setSort(sort);
+//        gameSettingQueryParams.setLimit(limit);
+//        gameSettingQueryParams.setOffset(offset);
+//        model.addAttribute("gameSettingQueryParams", gameSettingQueryParams);
+//
+//        List<GameSetting> gameSettingList =settingService.getSettings(gameSettingQueryParams);
+//        model.addAttribute("gameSettingList", gameSettingList);
+//        //使前端獲得數據得以呈現
+//
+//        //獲取玩家總數
+//        int totalSettings = settingService.getTotalSettingCount();
+//        int totalPages = (int) Math.ceil((double) totalSettings / limit);
+//        int currentPage = offset / limit;
+//
+//        model.addAttribute("totalPages", totalPages);
+//        model.addAttribute("currentPage", currentPage);
+//        //使前端獲得數據得以呈現
+//
+//        GameSettingRequest gameSettingRequest = new GameSettingRequest();
+//        model.addAttribute("gameSettingsRequest", gameSettingRequest);
+//
+//        return "gameSetting";
+//    }
+
     @GetMapping("/gameSetting")
-    public String game_setting(Model model,
-                         //排序Sorting
-                         @RequestParam(defaultValue = "created_date")String orderBy,
-                         @RequestParam(defaultValue = "asc")String sort,
-                         //分頁Pagination
-                         @RequestParam(defaultValue = "5")@Max(1000) @Min(0)Integer limit,
-                         @RequestParam(defaultValue = "0") @Min(0)Integer offset) {
+    public String game_setting(@ModelAttribute GameSettingQueryParams gameSettingQueryParams, Model model){
+        try {
+            List<GameSetting> gameSettingList = settingService.getSettings(gameSettingQueryParams);
+            int total = settingService.getTotalSettingCount();
+            int totalPages = (int) Math.ceil((double) total / gameSettingQueryParams.getLimit());
+            int currentPage = gameSettingQueryParams.getOffset() / gameSettingQueryParams.getLimit();
 
-        GameSettingQueryParams gameSettingQueryParams = new GameSettingQueryParams();
-        gameSettingQueryParams.setOrderBy(orderBy);
-        gameSettingQueryParams.setSort(sort);
-        gameSettingQueryParams.setLimit(limit);
-        gameSettingQueryParams.setOffset(offset);
-        model.addAttribute("gameSettingQueryParams", gameSettingQueryParams);
-
-        List<GameSetting> gameSettingList =settingService.getSettings(gameSettingQueryParams);
-        model.addAttribute("gameSettingList", gameSettingList);
-        //使前端獲得數據得以呈現
-
-        //獲取玩家總數
-        int totalSettings = settingService.getTotalSettingCount();
-        int totalPages = (int) Math.ceil((double) totalSettings / limit);
-        int currentPage = offset / limit;
-
-        model.addAttribute("totalPages", totalPages);
-        model.addAttribute("currentPage", currentPage);
-        //使前端獲得數據得以呈現
-
-        GameSettingRequest gameSettingRequest = new GameSettingRequest();
-        model.addAttribute("gameSettingsRequest", gameSettingRequest);
-
-        return "gameSetting";
+            model.addAttribute("gameSettingList", gameSettingList);
+            model.addAttribute("gameSettingQueryParams", gameSettingQueryParams);
+            model.addAttribute("totalPages", totalPages);
+            model.addAttribute("currentPage", currentPage);
+            model.addAttribute("gameSettingsRequest", new GameSettingRequest());
+            return "gameSetting";
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
     }
 
     @PostMapping("/delete_setting/{settingId}")

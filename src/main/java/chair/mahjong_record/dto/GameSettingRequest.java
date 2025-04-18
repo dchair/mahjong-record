@@ -1,8 +1,17 @@
 package chair.mahjong_record.dto;
 
 public class GameSettingRequest {
+    private Integer settingId;
     private Integer baseFanPrice;
     private Integer perFanPrice;
+
+    public Integer getSettingId() {
+        return settingId;
+    }
+
+    public void setSettingId(Integer settingId) {
+        this.settingId = settingId;
+    }
 
     public Integer getBaseFanPrice() {
         return baseFanPrice;
