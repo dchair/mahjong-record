@@ -1,5 +1,4 @@
 package chair.mahjong_record.mapper;
-import chair.mahjong_record.dto.GameSettingQueryParams;
 import chair.mahjong_record.dto.GameSettingRequest;
 import chair.mahjong_record.model.GameSetting;
 
@@ -12,4 +11,6 @@ public interface SettingMapper {
     int createSetting(GameSettingRequest gameSettingRequest);
     List<GameSetting> getSettings(Map<String, Object> map);
     int countSettings();
+    void deleteSettingById(int settingId);
+    List<GameSetting> getSettingsSelect();
 }

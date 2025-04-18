@@ -71,6 +71,7 @@ public class SettingServiceImpl implements SettingService {
 //        return settingDao.getSettings(gameSettingQueryParams);
 //    }
 
+    //沒在用的功能
     @Override
     public Boolean isSettingExists(Integer settingId) {
         return settingDao.isSettingExists(settingId) !=null;
@@ -88,11 +89,13 @@ public class SettingServiceImpl implements SettingService {
 
     @Override
     public void deleteSettingById(Integer settingId) {
-        settingDao.deleteSettingById(settingId);
+//        settingDao.deleteSettingById(settingId);
+        settingMapper.deleteSettingById(settingId);
     }
 
     @Override
     public List<GameSetting> getSettingsSelect() {
-        return settingDao.getSettingsSelect();
+//        return settingDao.getSettingsSelect();
+        return settingMapper.getSettingsSelect();
     }
 }

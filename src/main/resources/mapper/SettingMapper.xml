@@ -4,6 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace ="chair.mahjong_record.mapper.SettingMapper">
+<!--    read功能-->
     <select id="getSettingById" parameterType="int" resultType="chair.mahjong_record.model.GameSetting">
         SELECT *
         FROM
@@ -11,13 +12,13 @@
         WHERE
             setting_id = #{settingId}
     </select>
-
+<!--create功能-->
     <insert id="createSetting" parameterType="chair.mahjong_record.dto.GameSettingRequest"
             useGeneratedKeys="true" keyProperty="settingId">
     INSERT INTO game_settings (base_fan_price, per_fan_price, created_date, last_modified_date)
     VALUES (#{baseFanPrice}, #{perFanPrice}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
     </insert>
-
+<!--read全部功能-->
     <select id="getSettings" parameterType="map"
             resultType="chair.mahjong_record.model.GameSetting">
         SELECT *
@@ -42,9 +43,17 @@
         LIMIT #{limit}
         OFFSET #{offset}
     </select>
-
+<!--read setting資料庫比數功能-->
     <select id="countSettings" resultType="int">
         SELECT COUNT(*) FROM game_settings
     </select>
-
+<!--delete setting功能-->
+    <delete id="deleteSettingById">
+        DELETE FROM game_settings
+        WHERE setting_id = #{settingId}
+    </delete>
+<!--    read setting選項功能-->
+    <select id="getSettingsSelect" resultType="chair.mahjong_record.model.GameSetting">
+        SELECT * FROM game_settings
+    </select>
 </mapper>
